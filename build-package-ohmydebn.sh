@@ -41,6 +41,7 @@ fpm -s dir \
   -d keepassxc \
   -d lazygit \
   -d libadwaita-1-dev \
+  -d libglib2.0-bin \
   -d libgtk-4-dev \
   -d libnotify-bin \
   -d lshw \
@@ -53,6 +54,7 @@ fpm -s dir \
   -d pipx \
   -d pkg-config \
   -d python-is-python3 \
+  -d python3-terminaltexteffects \
   -d ripgrep \
   -d ristretto \
   -d rofi \
@@ -60,6 +62,8 @@ fpm -s dir \
   -d shellcheck \
   -d starship \
   -d systemd-timesyncd \
+  -d toilet \
+  -d toilet-fonts \
   -d ufw \
   -d vim \
   -d wget \
