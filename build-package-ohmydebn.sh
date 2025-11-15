@@ -1,0 +1,87 @@
+#!/bin/bash
+
+PACKAGE="ohmydebn"
+VERSION="2.4.0"
+rm -f ${PACKAGE}_*.deb
+
+fpm -s dir \
+  -t deb \
+  -n ${PACKAGE} \
+  -v $VERSION \
+  -a all \
+  --maintainer "Doug Burks<doug.burks@example.com>" \
+  --description "Debonaire Debian + Cinnamon setup inspired by Omarchy" \
+  --url “https://ohmydebn.org” \
+  -x opt/ohmydebn/.git \
+  -x opt/ohmydebn/themes \
+  -d alacritty \
+  -d bat \
+  -d bibata-cursor-theme \
+  -d binutils \
+  -d btop \
+  -d cava \
+  -d chromium \
+  -d curl \
+  -d eza \
+  -d ffmpeg \
+  -d fzf \
+  -d galculator \
+  -d gcc \
+  -d gcolor3 \
+  -d gir1.2-gtk4layershell-1.0 \
+  -d git \
+  -d gimp \
+  -d golang \
+  -d gum \
+  -d gvfs-backends \
+  -d htop \
+  -d imagemagick \
+  -d iperf3 \
+  -d jq \
+  -d keepassxc \
+  -d lazygit \
+  -d libadwaita-1-dev \
+  -d libgtk-4-dev \
+  -d libnotify-bin \
+  -d lshw \
+  -d neovim \
+  -d ohmydebn-aether \
+  -d ohmydebn-themes \
+  -d ohmydebn-themes-omarchy \
+  -d openvpn \
+  -d pdftk-java \
+  -d pipx \
+  -d pkg-config \
+  -d python-is-python3 \
+  -d ripgrep \
+  -d ristretto \
+  -d rofi \
+  -d screenfetch \
+  -d shellcheck \
+  -d starship \
+  -d systemd-timesyncd \
+  -d ufw \
+  -d vim \
+  -d wget \
+  -d xdotool \
+  -d xournalpp \
+  -d yaru-theme-gtk \
+  -d yaru-theme-icon \
+  -d yq \
+  -d zip \
+  -d zoxide \
+  -d zsh \
+  -d zsh-autosuggestions \
+  -d zsh-syntax-highlighting \
+  ~/git/ohmydebn=/opt/
+
+echo
+ls -alh *.deb
+echo
+cd ohmydebn-packages-testing
+reprepro remove trixie ${PACKAGE}
+reprepro -b . includedeb trixie ../${PACKAGE}_${VERSION}_all.deb
+git add -A
+git commit -m "update ${PACKAGE} package"
+git push
+cd - >/dev/null
