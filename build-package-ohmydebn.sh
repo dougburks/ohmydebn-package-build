@@ -77,7 +77,7 @@ fpm -s dir \
   -d zsh \
   -d zsh-autosuggestions \
   -d zsh-syntax-highlighting \
-  ~/git/ohmydebn=/opt/
+  ~/git/ohmydebn/=/opt/${PACKAGE}
 
 echo
 ls -alh *.deb
