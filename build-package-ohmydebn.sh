@@ -1,7 +1,7 @@
 #!/bin/bash
 
 PACKAGE="ohmydebn"
-VERSION="2.4.0"
+VERSION="2.5.0"
 rm -f ${PACKAGE}_*.deb
 
 fpm -s dir \
@@ -21,6 +21,7 @@ fpm -s dir \
   -d btop \
   -d cava \
   -d chromium \
+  -d cinnamon-desktop-environment \
   -d curl \
   -d eza \
   -d ffmpeg \
