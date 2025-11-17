@@ -12,16 +12,12 @@ fpm -s dir \
   --maintainer "Doug Burks<doug.burks@example.com>" \
   --description "Themes from Omarchy packaged for OhMyDebn" \
   --url "https://ohmydebn.org" \
-  -x opt/omarchy/.git \
-  ~/git/omarchy/themes/=/opt/${PACKAGE}
+  ~/git/omarchy/themes/=/usr/share/${PACKAGE}
 
 echo
-ls -alh *.deb
+ls -alh ${PACKAGE}_*.deb
 echo
 cd ohmydebn-packages-testing
 reprepro remove trixie ${PACKAGE}
 reprepro -b . includedeb trixie ../${PACKAGE}_${VERSION}_all.deb
-git add -A
-git commit -m "update ${PACKAGE} package"
-git push
 cd - >/dev/null

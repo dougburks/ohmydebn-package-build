@@ -7,21 +7,19 @@ rm -f ${PACKAGE}_*.deb
 fpm -s dir \
   -t deb \
   -n ${PACKAGE} \
-  -v $VERSION \
+  -v ${VERSION} \
   -a all \
   --maintainer "Doug Burks<doug.burks@example.com>" \
   --description "Aether theme builder packaged for OhMyDebn" \
   --url "https://ohmydebn.org" \
-  -x opt/aether/.git \
-  ~/git/aether/=/opt/${PACKAGE}
+  -x usr/share/${PACKAGE}/.git \
+  -x usr/share/${PACKAGE}/.github \
+  ~/git/aether/=/usr/share/${PACKAGE}
 
 echo
-ls -alh *.deb
+ls -alh ${PACKAGE}_*.deb
 echo
 cd ohmydebn-packages-testing
 reprepro remove trixie ${PACKAGE}
 reprepro -b . includedeb trixie ../${PACKAGE}_${VERSION}_all.deb
-git add -A
-git commit -m "update ${PACKAGE} package"
-git push
 cd - >/dev/null

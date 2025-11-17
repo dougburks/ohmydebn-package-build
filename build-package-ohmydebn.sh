@@ -7,13 +7,13 @@ rm -f ${PACKAGE}_*.deb
 fpm -s dir \
   -t deb \
   -n ${PACKAGE} \
-  -v $VERSION \
+  -v ${VERSION} \
   -a all \
   --maintainer "Doug Burks<doug.burks@example.com>" \
   --description "Debonaire Debian + Cinnamon setup inspired by Omarchy" \
   --url "https://ohmydebn.org" \
-  -x opt/ohmydebn/.git \
-  -x opt/ohmydebn/themes \
+  -x usr/share/ohmydebn/.git \
+  -x usr/share/ohmydebn/themes \
   -d alacritty \
   -d bat \
   -d bibata-cursor-theme \
@@ -46,6 +46,9 @@ fpm -s dir \
   -d libgtk-4-dev \
   -d libnotify-bin \
   -d lshw \
+  -d mint-themes \
+  -d mint-x-icons \
+  -d mint-y-icons \
   -d neovim \
   -d ohmydebn-aether \
   -d ohmydebn-themes \
@@ -78,15 +81,12 @@ fpm -s dir \
   -d zsh \
   -d zsh-autosuggestions \
   -d zsh-syntax-highlighting \
-  ~/git/ohmydebn/=/opt/${PACKAGE}
+  ~/git/ohmydebn/=/usr/share/${PACKAGE}
 
 echo
-ls -alh *.deb
+ls -alh ${PACKAGE}_*.deb
 echo
 cd ohmydebn-packages-testing
 reprepro remove trixie ${PACKAGE}
 reprepro -b . includedeb trixie ../${PACKAGE}_${VERSION}_all.deb
-git add -A
-git commit -m "update ${PACKAGE} package"
-git push
 cd - >/dev/null
