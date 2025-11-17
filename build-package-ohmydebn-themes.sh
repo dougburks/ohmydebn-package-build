@@ -11,7 +11,7 @@ fpm -s dir \
   -a all \
   --maintainer "Doug Burks<doug.burks@example.com>" \
   --description "Themes for OhMyDebn" \
-  --url “https://ohmydebn.org” \
+  --url "https://ohmydebn.org" \
   -x opt/ohmydebn/.git \
   ~/git/ohmydebn/themes/=/opt/${PACKAGE}
 

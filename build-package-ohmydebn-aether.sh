@@ -11,7 +11,7 @@ fpm -s dir \
   -a all \
   --maintainer "Doug Burks<doug.burks@example.com>" \
   --description "Aether theme builder packaged for OhMyDebn" \
-  --url “https://ohmydebn.org” \
+  --url "https://ohmydebn.org" \
   -x opt/aether/.git \
   ~/git/aether/=/opt/${PACKAGE}
 

@@ -11,7 +11,7 @@ fpm -s dir \
   -a all \
   --maintainer "Doug Burks<doug.burks@example.com>" \
   --description "Debonaire Debian + Cinnamon setup inspired by Omarchy" \
-  --url “https://ohmydebn.org” \
+  --url "https://ohmydebn.org" \
   -x opt/ohmydebn/.git \
   -x opt/ohmydebn/themes \
   -d alacritty \
