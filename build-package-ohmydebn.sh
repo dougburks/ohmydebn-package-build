@@ -51,6 +51,7 @@ fpm -s dir \
   -d mint-y-icons \
   -d neovim \
   -d ohmydebn-aether \
+  -d ohmydebn-gtile \
   -d ohmydebn-themes \
   -d ohmydebn-themes-omarchy \
   -d openvpn \
