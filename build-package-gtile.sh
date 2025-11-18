@@ -1,7 +1,7 @@
 #!/bin/bash
 
 PACKAGE="ohmydebn-gtile"
-VERSION="5.4.0"
+VERSION="2.2.1"
 rm -f ${PACKAGE}_*.deb
 
 fpm -s dir \
