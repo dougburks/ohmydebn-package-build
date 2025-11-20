@@ -1,7 +1,7 @@
 #!/bin/bash
 
 PACKAGE="ohmydebn"
-VERSION="2.7.0"
+VERSION="2.8.0"
 rm -f ${PACKAGE}_*.deb
 
 fpm -s dir \
