@@ -1,7 +1,7 @@
 #!/bin/bash
 
 PACKAGE="ohmydebn"
-VERSION="3.0.0"
+VERSION=$(cat ohmydebn/VERSION)
 rm -f ${PACKAGE}_*.deb
 
 fpm -s dir \
