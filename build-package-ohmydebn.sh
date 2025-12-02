@@ -51,6 +51,9 @@ fpm -s dir \
   -d mint-y-icons \
   -d neovim \
   -d ohmydebn-aether \
+  -d ohmydebn-caskaydiamononerdfont \
+  -d ohmydebn-caskaydiamononerdfontmono \
+  -d ohmydebn-caskaydiamononerdfontpropo \
   -d ohmydebn-gtile \
   -d ohmydebn-themes \
   -d ohmydebn-themes-omarchy \
@@ -82,7 +85,9 @@ fpm -s dir \
   -d zsh \
   -d zsh-autosuggestions \
   -d zsh-syntax-highlighting \
-  ~/git/ohmydebn/=/usr/share/${PACKAGE}
+  ~/git/ohmydebn/=/usr/share/${PACKAGE} \
+  ~/git/ohmydebn/bin/aether=/usr/bin/aether \
+  ~/git/ohmydebn/bin/omarchy-theme-set=/usr/bin/omarchy-theme-set
 
 echo
 ls -alh ${PACKAGE}_*.deb

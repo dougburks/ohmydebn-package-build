@@ -1,7 +1,7 @@
 #!/bin/bash
 
-PACKAGE="ohmydebn-aether"
-VERSION="2.19.1"
+PACKAGE="ohmydebn-caskaydiamononerdfontpropo"
+VERSION="3.4.0"
 rm -f ${PACKAGE}_*.deb
 
 fpm -s dir \
@@ -10,11 +10,11 @@ fpm -s dir \
   -v ${VERSION} \
   -a all \
   --maintainer "Doug Burks<doug.burks@example.com>" \
-  --description "Aether theme builder packaged for OhMyDebn" \
+  --description "Caskaydia Mono Nerd Font Propo packaged for OhMyDebn" \
   --url "https://ohmydebn.org" \
   -x usr/share/${PACKAGE}/.git \
   -x usr/share/${PACKAGE}/.github \
-  ~/git/aether/=/usr/share/${PACKAGE}
+  ~/git/caskaydiamononerdfontpropo/=/usr/share/fonts/truetype/${PACKAGE}
 
 echo
 ls -alh ${PACKAGE}_*.deb
