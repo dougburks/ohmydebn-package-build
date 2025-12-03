@@ -44,6 +44,7 @@ fpm -s dir \
   -d libadwaita-1-dev \
   -d libglib2.0-bin \
   -d libgtk-4-dev \
+  -d libgtk4-layer-shell0 \
   -d libnotify-bin \
   -d lshw \
   -d mint-themes \
