@@ -2,6 +2,6 @@
 
 Prerequisites:
 ```
-sudo apt install rubygems
+sudo apt install rubygems reprepro
 sudo gem install fpm
 ```
