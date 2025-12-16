@@ -1,7 +1,7 @@
 #!/bin/bash
 
 PACKAGE="ohmydebn-themes-omarchy"
-VERSION="3.2.0"
+VERSION="3.2.3"
 rm -f ${PACKAGE}_*.deb
 
 fpm -s dir \
