@@ -47,6 +47,7 @@ fpm -s dir \
   -d libgtk-4-dev \
   -d libgtk4-layer-shell0 \
   -d libnotify-bin \
+  -d libspa-0.2-bluetooth \
   -d lshw \
   -d mint-themes \
   -d mint-x-icons \
