@@ -34,6 +34,7 @@ fpm -s dir \
   -d gimp \
   -d golang \
   -d grc \
+  -d gufw \
   -d gum \
   -d gvfs-backends \
   -d htop \
