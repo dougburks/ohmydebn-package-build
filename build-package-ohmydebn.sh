@@ -23,6 +23,7 @@ fpm -s dir \
   -d chromium \
   -d cinnamon-desktop-environment \
   -d curl \
+  -d ethtool \
   -d eza \
   -d ffmpeg \
   -d fzf \
