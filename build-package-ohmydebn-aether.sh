@@ -1,7 +1,7 @@
 #!/bin/bash
 
 PACKAGE="ohmydebn-aether"
-VERSION="2.20.3"
+VERSION="2.20.4"
 rm -f ${PACKAGE}_*.deb
 
 fpm -s dir \
