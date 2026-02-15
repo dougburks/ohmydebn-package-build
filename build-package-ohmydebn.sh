@@ -60,6 +60,7 @@ fpm -s dir \
   -d ohmydebn-caskaydiamononerdfontmono \
   -d ohmydebn-caskaydiamononerdfontpropo \
   -d ohmydebn-gtile \
+  -d ohmydebn-templates \
   -d ohmydebn-themes \
   -d ohmydebn-themes-omarchy \
   -d openvpn \
