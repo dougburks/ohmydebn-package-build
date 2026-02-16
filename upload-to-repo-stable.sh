@@ -9,6 +9,7 @@ for PACKAGE in mint-themes \
   ohmydebn-caskaydiamononerdfontmono \
   ohmydebn-caskaydiamononerdfontpropo \
   ohmydebn-gtile \
+  ohmydebn-templates \
   ohmydebn-themes-omarchy \
   ohmydebn-themes \
   ohmydebn; do
