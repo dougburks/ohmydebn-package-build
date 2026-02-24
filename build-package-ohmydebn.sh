@@ -78,6 +78,7 @@ fpm -s dir \
   -d systemd-timesyncd \
   -d toilet \
   -d toilet-fonts \
+  -d traceroute \
   -d ufw \
   -d vim \
   -d wget \
