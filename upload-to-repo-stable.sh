@@ -2,7 +2,8 @@
 
 cd ohmydebn-packages
 
-for PACKAGE in mint-themes \
+for PACKAGE in cliamp \
+  mint-themes \
   mint-x-icons \
   ohmydebn-aether \
   ohmydebn-caskaydiamononerdfont \
