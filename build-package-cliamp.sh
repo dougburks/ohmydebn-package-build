@@ -1,23 +1,24 @@
 #!/usr/bin/env bash
+
 set -euo pipefail
 
-VERSION="1.20.1"
+VERSION="1.24.0"
 NAME="cliamp"
 DESC="Retro terminal music player inspired by Winamp"
-URL="https://github.com/bjarneo/cliamp"
-REPO="bjarneo/cliamp"
+REPO="bjarneo/${NAME}"
+URL="https://github.com/${REPO}"
 
-rm -f cliamp*.deb
+rm -f ${NAME}*.deb
 
 echo
 echo "Downloading amd64 binary"
-wget -q -O cliamp-linux-amd64 "https://github.com/${REPO}/releases/download/v${VERSION}/cliamp-linux-amd64"
-chmod +x cliamp-linux-amd64
+wget -q -O ${NAME}-linux-amd64 "https://github.com/${REPO}/releases/download/v${VERSION}/${NAME}-linux-amd64"
+chmod +x ${NAME}-linux-amd64
 
 echo
 echo "Downloading arm64 binary"
-wget -q -O cliamp-linux-arm64 "https://github.com/${REPO}/releases/download/v${VERSION}/cliamp-linux-arm64"
-chmod +x cliamp-linux-arm64
+wget -q -O ${NAME}-linux-arm64 "https://github.com/${REPO}/releases/download/v${VERSION}/${NAME}-linux-arm64"
+chmod +x ${NAME}-linux-arm64
 
 echo
 echo "Building amd64 package"
@@ -49,7 +50,7 @@ fpm -s dir -t deb \
 
 echo
 echo "Removing temp files"
-rm -f cliamp-linux-amd64 cliamp-linux-arm64
+rm -f ${NAME}-linux-amd64 ${NAME}-linux-arm64
 
 echo
 echo "Including both packages in testing repo"

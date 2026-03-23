@@ -21,6 +21,7 @@ fpm -s dir \
   -d btop \
   -d cava \
   -d chromium \
+  -d chrony \
   -d cinnamon-desktop-environment \
   -d curl \
   -d ethtool \
@@ -33,7 +34,6 @@ fpm -s dir \
   -d gir1.2-gtk4layershell-1.0 \
   -d git \
   -d gimp \
-  -d golang \
   -d grc \
   -d gufw \
   -d gum \
@@ -72,10 +72,10 @@ fpm -s dir \
   -d ripgrep \
   -d ristretto \
   -d rofi \
+  -d rsync \
   -d screenfetch \
   -d shellcheck \
   -d starship \
-  -d systemd-timesyncd \
   -d toilet \
   -d toilet-fonts \
   -d traceroute \
@@ -93,7 +93,6 @@ fpm -s dir \
   -d zsh-autosuggestions \
   -d zsh-syntax-highlighting \
   ~/git/ohmydebn/=/usr/share/${PACKAGE} \
-  ~/git/ohmydebn/bin/aether=/usr/bin/aether \
   ~/git/ohmydebn/bin/omarchy-theme-set=/usr/bin/omarchy-theme-set
 
 echo
