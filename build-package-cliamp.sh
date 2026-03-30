@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-VERSION="1.27.8"
+VERSION="1.29.0"
 NAME="cliamp"
 DESC="Retro terminal music player inspired by Winamp"
 REPO="bjarneo/${NAME}"
