@@ -19,11 +19,13 @@ for PACKAGE in cliamp \
   ohmydebn-themes-gruvbox \
   ohmydebn-themes-hackerman \
   ohmydebn-themes-kanagawa \
+  ohmydebn-themes-lumon \
   ohmydebn-themes-matte-black \
   ohmydebn-themes-miasma \
   ohmydebn-themes-nord \
   ohmydebn-themes-omarchy \
   ohmydebn-themes-osaka-jade \
+  ohmydebn-themes-retro-82 \
   ohmydebn-themes-ristretto \
   ohmydebn-themes-rose-pine \
   ohmydebn-themes-tokyo-night \

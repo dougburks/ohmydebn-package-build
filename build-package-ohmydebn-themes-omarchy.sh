@@ -4,7 +4,7 @@ VERSION=$(cat ~/git/omarchy/version)
 PREFIX="ohmydebn-themes"
 
 # Create individual package for each omarchy theme
-for THEME in catppuccin catppuccin-latte ethereal everforest flexoki-light gruvbox hackerman kanagawa matte-black miasma nord osaka-jade ristretto rose-pine tokyo-night vantablack white; do
+for THEME in catppuccin catppuccin-latte ethereal everforest flexoki-light gruvbox hackerman kanagawa lumon matte-black miasma nord osaka-jade retro-82 ristretto rose-pine tokyo-night vantablack white; do
 
   PACKAGE="${PREFIX}-${THEME}"
   rm -f ${PACKAGE}_*.deb
@@ -49,10 +49,12 @@ fpm -s empty \
   -d ${PREFIX}-gruvbox \
   -d ${PREFIX}-hackerman \
   -d ${PREFIX}-kanagawa \
+  -d ${PREFIX}-lumon \
   -d ${PREFIX}-matte-black \
   -d ${PREFIX}-miasma \
   -d ${PREFIX}-nord \
   -d ${PREFIX}-osaka-jade \
+  -d ${PREFIX}-retro-82 \
   -d ${PREFIX}-ristretto \
   -d ${PREFIX}-rose-pine \
   -d ${PREFIX}-tokyo-night \
