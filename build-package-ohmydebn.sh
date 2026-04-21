@@ -24,6 +24,7 @@ fpm -s dir \
   -d chrony \
   -d cinnamon-desktop-environment \
   -d curl \
+  -d duf \
   -d ethtool \
   -d eza \
   -d ffmpeg \
