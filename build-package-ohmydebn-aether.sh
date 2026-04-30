@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-VERSION="4.15.2"
+VERSION="4.15.3"
 NAME="aether"
 AUTHOR="bjarneo"
 DESC="Desktop theming application"
