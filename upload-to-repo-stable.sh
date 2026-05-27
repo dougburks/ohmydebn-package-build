@@ -2,6 +2,7 @@
 
 cd ohmydebn-packages
 
+# Include packages that have standard naming conventions
 for PACKAGE in cliamp \
   mint-themes \
   mint-x-icons \
@@ -10,6 +11,7 @@ for PACKAGE in cliamp \
   ohmydebn-caskaydiamononerdfontmono \
   ohmydebn-caskaydiamononerdfontpropo \
   ohmydebn-gtile \
+  ohmydebn-opencode-cli \
   ohmydebn-templates \
   ohmydebn-themes-catppuccin-latte \
   ohmydebn-themes-catppuccin \
@@ -32,10 +34,15 @@ for PACKAGE in cliamp \
   ohmydebn-themes-vantablack \
   ohmydebn-themes-white \
   ohmydebn-themes \
-  ohmydebn; do
+  ohmydebn \
+  touchegg; do
   reprepro remove trixie ${PACKAGE}
   reprepro -b . includedeb trixie ../${PACKAGE}_*
 done
+
+# Include packages with non-standard naming conventions
+reprepro remove trixie localsend
+reprepro -b . includedeb trixie ../LocalSend-*
 
 git add -A
 git commit -m "update packages"
