@@ -64,7 +64,6 @@ fpm -s dir \
   -d ohmydebn-templates \
   -d ohmydebn-themes \
   -d ohmydebn-themes-omarchy \
-  -d openvpn \
   -d pdftk-java \
   -d pipx \
   -d pkg-config \
