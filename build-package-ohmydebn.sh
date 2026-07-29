@@ -10,8 +10,9 @@ fpm -s dir \
   -v ${VERSION} \
   -a all \
   --maintainer "Doug Burks<doug.burks@example.com>" \
-  --description "Debonaire Debian + Cinnamon setup inspired by Omarchy" \
+  --description "Debonaire Debian + Cinnamon desktop for power users" \
   --url "https://ohmydebn.org" \
+  --after-install ohmydebn-package-build/postinst-ohmydebn.sh \
   -x usr/share/ohmydebn/.git \
   -x usr/share/ohmydebn/themes \
   -d alacritty \
@@ -72,6 +73,7 @@ fpm -s dir \
   -d ripgrep \
   -d ristretto \
   -d rofi \
+  -d rclone \
   -d rsync \
   -d screenfetch \
   -d shellcheck \

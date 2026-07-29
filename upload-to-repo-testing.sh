@@ -1,7 +1,14 @@
 #!/bin/bash
 
 cd ohmydebn-packages-testing
-git add -A
-git commit -m "update packages"
-git push
+
+# Deploy to Cloudflare R2
+rclone sync . "r2:ohmydebn-packages-testing" \
+  --exclude ".git/**" \
+  --exclude "README.md" \
+  --s3-no-check-bucket \
+  --s3-no-head \
+  --no-update-modtime \
+  --ignore-checksum
+
 cd - >/dev/null

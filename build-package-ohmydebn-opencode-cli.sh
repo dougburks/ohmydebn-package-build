@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-VERSION="1.17.20"
+VERSION="1.18.9"
 NAME="opencode"
 DESC="The open source AI coding agent"
 REPO="anomalyco/${NAME}"
