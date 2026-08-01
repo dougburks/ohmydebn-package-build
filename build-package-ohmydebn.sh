@@ -17,7 +17,6 @@ fpm -s dir \
   -x usr/share/ohmydebn/themes \
   -d alacritty \
   -d bat \
-  -d bibata-cursor-theme \
   -d binutils \
   -d btop \
   -d cava \
@@ -53,6 +52,7 @@ fpm -s dir \
   -d libnotify-bin \
   -d libspa-0.2-bluetooth \
   -d lshw \
+  -d mint-cursor-themes \
   -d mint-themes \
   -d mint-x-icons \
   -d mint-y-icons \
@@ -77,6 +77,7 @@ fpm -s dir \
   -d rsync \
   -d screenfetch \
   -d shellcheck \
+  -d spice-vdagent \
   -d starship \
   -d toilet \
   -d toilet-fonts \
