@@ -4,8 +4,10 @@ cd ohmydebn-packages
 
 # Include packages that have standard naming conventions
 for PACKAGE in cliamp \
+  mint-cursor-themes \
   mint-themes \
   mint-x-icons \
+  mint-y-icons \
   ohmydebn-aether \
   ohmydebn-caskaydiamononerdfont \
   ohmydebn-caskaydiamononerdfontmono \
