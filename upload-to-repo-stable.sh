@@ -37,6 +37,7 @@ for PACKAGE in cliamp \
   ohmydebn-themes-white \
   ohmydebn-themes \
   ohmydebn \
+  spice-vdagent \
   touchegg; do
   reprepro remove trixie ${PACKAGE}
   reprepro -b . includedeb trixie ../${PACKAGE}_*
