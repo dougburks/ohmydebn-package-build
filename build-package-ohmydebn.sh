@@ -69,11 +69,9 @@ fpm -s dir \
   --depends pipx \
   --depends pkg-config \
   --depends python-is-python3 \
-  --depends python3-terminaltexteffects \
   --depends ripgrep \
   --depends ristretto \
   --depends rofi \
-  --depends rclone \
   --depends rsync \
   --depends screenfetch \
   --depends shellcheck \
@@ -81,6 +79,7 @@ fpm -s dir \
   --depends toilet \
   --depends toilet-fonts \
   --depends traceroute \
+  --depends ttfx \
   --depends ufw \
   --depends vim \
   --depends wget \
