@@ -3,7 +3,8 @@
 cd ohmydebn-packages
 
 # Include packages that have standard naming conventions
-for PACKAGE in cliamp \
+for PACKAGE in \
+  cliamp \
   mint-cursor-themes \
   mint-themes \
   mint-x-icons \
@@ -38,7 +39,8 @@ for PACKAGE in cliamp \
   ohmydebn-themes \
   ohmydebn \
   spice-vdagent \
-  touchegg; do
+  touchegg \
+  ttfx; do
   reprepro remove trixie ${PACKAGE}
   reprepro -b . includedeb trixie ../${PACKAGE}_*
 done
