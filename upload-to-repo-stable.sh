@@ -24,7 +24,9 @@ for PACKAGE in \
   ohmydebn-themes-gruvbox \
   ohmydebn-themes-hackerman \
   ohmydebn-themes-kanagawa \
+  ohmydebn-themes-last-horizon \
   ohmydebn-themes-lumon \
+  ohmydebn-themes-lupine \
   ohmydebn-themes-matte-black \
   ohmydebn-themes-miasma \
   ohmydebn-themes-nord \
@@ -33,6 +35,7 @@ for PACKAGE in \
   ohmydebn-themes-retro-82 \
   ohmydebn-themes-ristretto \
   ohmydebn-themes-rose-pine \
+  ohmydebn-themes-solitude \
   ohmydebn-themes-tokyo-night \
   ohmydebn-themes-vantablack \
   ohmydebn-themes-white \
@@ -41,11 +44,15 @@ for PACKAGE in \
   spice-vdagent \
   touchegg \
   ttfx; do
+  echo
+  echo "Package: $PACKAGE"
   reprepro remove trixie ${PACKAGE}
   reprepro -b . includedeb trixie ../${PACKAGE}_*
 done
 
 # Include packages with non-standard naming conventions
+echo
+echo "Package: localsend"
 reprepro remove trixie localsend
 reprepro -b . includedeb trixie ../LocalSend-*
 
@@ -59,3 +66,6 @@ rclone sync . "r2:ohmydebn-packages" \
   --ignore-checksum
 
 cd - >/dev/null
+
+echo
+echo "If pushing modified packages, you will need to manually purge Cloudflare cache!"

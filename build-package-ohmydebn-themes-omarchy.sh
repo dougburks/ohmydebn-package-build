@@ -1,11 +1,17 @@
 #!/bin/bash
 
-VERSION=$(cat ~/git/omarchy/version)
+# Omarchy version currently has an alpha tag
+#VERSION=$(cat ~/git/omarchy/version)
+# so let's hardcode it for now:
+VERSION="4.0.0"
 PREFIX="ohmydebn-themes"
 
 # Create individual package for each omarchy theme
-for THEME in catppuccin catppuccin-latte ethereal everforest flexoki-light gruvbox hackerman kanagawa lumon matte-black miasma nord osaka-jade retro-82 ristretto rose-pine tokyo-night vantablack white; do
+for THEME in catppuccin catppuccin-latte ethereal everforest flexoki-light gruvbox \
+  hackerman kanagawa last-horizon lumon lupine matte-black miasma nord osaka-jade retro-82 \
+  ristretto rose-pine solitude tokyo-night vantablack white; do
 
+  echo "Working on $THEME"
   PACKAGE="${PREFIX}-${THEME}"
   rm -f ${PACKAGE}_*.deb
 
@@ -49,7 +55,9 @@ fpm -s empty \
   -d ${PREFIX}-gruvbox \
   -d ${PREFIX}-hackerman \
   -d ${PREFIX}-kanagawa \
+  -d ${PREFIX}-last-horizon \
   -d ${PREFIX}-lumon \
+  -d ${PREFIX}-lupine \
   -d ${PREFIX}-matte-black \
   -d ${PREFIX}-miasma \
   -d ${PREFIX}-nord \
@@ -57,6 +65,7 @@ fpm -s empty \
   -d ${PREFIX}-retro-82 \
   -d ${PREFIX}-ristretto \
   -d ${PREFIX}-rose-pine \
+  -d ${PREFIX}-solitude \
   -d ${PREFIX}-tokyo-night \
   -d ${PREFIX}-vantablack \
   -d ${PREFIX}-white

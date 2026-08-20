@@ -1,7 +1,7 @@
 #!/bin/bash
 
 PACKAGE="ohmydebn-themes"
-VERSION="1.0.0"
+VERSION="4.0.0"
 rm -f ${PACKAGE}_*.deb
 
 fpm -s dir \

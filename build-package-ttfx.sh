@@ -12,7 +12,7 @@
 
 set -euo pipefail
 
-VERSION="0.3.1"
+VERSION="0.3.2"
 NAME="ttfx"
 AUTHOR="omacom-io"
 DESC="Terminal text effects as a single static binary"

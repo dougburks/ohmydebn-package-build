@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-VERSION="4.27.2"
+VERSION="4.29.0"
 NAME="aether"
 AUTHOR="bjarneo"
 DESC="Desktop theming application"
@@ -32,6 +32,7 @@ for ARCHITECTURE in amd64 arm64; do
     -d libgtk-layer-shell0 \
     -d gstreamer1.0-plugins-good \
     -d ffmpeg \
+    ohmydebn-package-build/li.oever.aether.url-handler.desktop=/usr/share/applications/li.oever.aether.url-handler.desktop \
     ${NAME}-linux-${ARCHITECTURE}=/usr/share/aether/${NAME}
 
   echo

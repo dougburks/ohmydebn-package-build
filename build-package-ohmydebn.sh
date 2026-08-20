@@ -4,6 +4,30 @@ PACKAGE="ohmydebn"
 VERSION=$(cat ohmydebn/VERSION)
 rm -f ${PACKAGE}_*.deb
 
+# Pre-build the menu search cache so even the very first launch after
+# install is fast, not just subsequent ones (ohmydebn-menu-tree's
+# _mt_cached_raw() unconditionally prefers this shipped file over
+# computing it on the fly, for the real installed path - see its own
+# comment there). Regenerated fresh on every build directly from the exact
+# ohmydebn-menu about to be packaged, so it can never ship stale relative
+# to its own source. The target strings this produces (e.g.
+# /usr/share/ohmydebn/bin/ohmydebn-gimp) are already deploy-path-correct
+# regardless of which copy of the file we parse them from - ohmydebn-menu
+# hardcodes those paths as literal text, so this local checkout and the
+# not-yet-installed deployed copy are byte-for-byte identical once fpm
+# copies the file across below.
+mkdir -p ohmydebn/cache
+rm -f ohmydebn/cache/menu-tree-flatten.tsv
+(
+  source ohmydebn/bin/ohmydebn-menu-tree
+  # Matches every real caller of menu_tree_flatten() (ohmydebn-menu-picker,
+  # tests/consistency.sh) - MT_SKIP_LABELS is baked into whatever gets
+  # cached at compute time, so this has to agree with them or Apps would
+  # leak back into search results once this shipped cache is in play.
+  MT_SKIP_LABELS=(Apps)
+  _mt_flatten_uncached ohmydebn/bin/ohmydebn-menu
+) >ohmydebn/cache/menu-tree-flatten.tsv
+
 fpm -s dir \
   --output-type deb \
   --name ${PACKAGE} \
@@ -15,48 +39,13 @@ fpm -s dir \
   --after-install ohmydebn-package-build/postinst-ohmydebn.sh \
   --exclude usr/share/ohmydebn/.git \
   --exclude usr/share/ohmydebn/themes \
-  --depends alacritty \
-  --depends bat \
-  --depends binutils \
-  --depends btop \
-  --depends cava \
-  --depends chromium \
-  --depends chrony \
-  --depends cinnamon-desktop-environment \
+  --exclude usr/share/ohmydebn/tests \
   --depends curl \
-  --depends duf \
-  --depends ethtool \
-  --depends eza \
-  --depends ffmpeg \
-  --depends fzf \
-  --depends galculator \
-  --depends gcc \
-  --depends gcolor3 \
-  --depends gir1.2-gtk4layershell-1.0 \
   --depends git \
-  --depends gimp \
-  --depends grc \
-  --depends gufw \
-  --depends gum \
-  --depends gvfs-backends \
-  --depends htop \
-  --depends imagemagick \
-  --depends iperf3 \
-  --depends jq \
-  --depends keepassxc \
-  --depends lazygit \
-  --depends libadwaita-1-dev \
-  --depends libglib2.0-bin \
-  --depends libgtk-4-dev \
-  --depends libgtk4-layer-shell0 \
-  --depends libnotify-bin \
-  --depends libspa-0.2-bluetooth \
-  --depends lshw \
   --depends mint-cursor-themes \
   --depends mint-themes \
   --depends mint-x-icons \
   --depends mint-y-icons \
-  --depends neovim \
   --depends ohmydebn-aether \
   --depends ohmydebn-caskaydiamononerdfont \
   --depends ohmydebn-caskaydiamononerdfontmono \
@@ -65,34 +54,10 @@ fpm -s dir \
   --depends ohmydebn-templates \
   --depends ohmydebn-themes \
   --depends ohmydebn-themes-omarchy \
-  --depends pdftk-java \
-  --depends pipx \
-  --depends pkg-config \
-  --depends python-is-python3 \
-  --depends ripgrep \
-  --depends ristretto \
-  --depends rofi \
-  --depends rsync \
-  --depends screenfetch \
-  --depends shellcheck \
-  --depends starship \
   --depends toilet \
   --depends toilet-fonts \
-  --depends traceroute \
   --depends ttfx \
-  --depends ufw \
-  --depends vim \
-  --depends wget \
   --depends xdotool \
-  --depends xournalpp \
-  --depends yaru-theme-gtk \
-  --depends yaru-theme-icon \
-  --depends yq \
-  --depends zip \
-  --depends zoxide \
-  --depends zsh \
-  --depends zsh-autosuggestions \
-  --depends zsh-syntax-highlighting \
   ~/git/ohmydebn/=/usr/share/${PACKAGE} \
   ~/git/ohmydebn/bin/omarchy-theme-set=/usr/bin/omarchy-theme-set
 
