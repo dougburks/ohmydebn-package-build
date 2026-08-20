@@ -2,6 +2,14 @@
 
 cd ohmydebn-packages
 
+OMARCHY_THEMES_DIR=~/git/omarchy/themes
+
+# Dynamically determine the list of omarchy theme packages
+THEME_PACKAGES=()
+for dir in "${OMARCHY_THEMES_DIR}"/*/; do
+  THEME_PACKAGES+=("ohmydebn-themes-$(basename "$dir")")
+done
+
 # Include packages that have standard naming conventions
 for PACKAGE in \
   cliamp \
@@ -16,29 +24,8 @@ for PACKAGE in \
   ohmydebn-gtile \
   ohmydebn-opencode-cli \
   ohmydebn-templates \
-  ohmydebn-themes-catppuccin-latte \
-  ohmydebn-themes-catppuccin \
-  ohmydebn-themes-ethereal \
-  ohmydebn-themes-everforest \
-  ohmydebn-themes-flexoki-light \
-  ohmydebn-themes-gruvbox \
-  ohmydebn-themes-hackerman \
-  ohmydebn-themes-kanagawa \
-  ohmydebn-themes-last-horizon \
-  ohmydebn-themes-lumon \
-  ohmydebn-themes-lupine \
-  ohmydebn-themes-matte-black \
-  ohmydebn-themes-miasma \
-  ohmydebn-themes-nord \
+  "${THEME_PACKAGES[@]}" \
   ohmydebn-themes-omarchy \
-  ohmydebn-themes-osaka-jade \
-  ohmydebn-themes-retro-82 \
-  ohmydebn-themes-ristretto \
-  ohmydebn-themes-rose-pine \
-  ohmydebn-themes-solitude \
-  ohmydebn-themes-tokyo-night \
-  ohmydebn-themes-vantablack \
-  ohmydebn-themes-white \
   ohmydebn-themes \
   ohmydebn \
   spice-vdagent \

@@ -5,11 +5,16 @@
 # so let's hardcode it for now:
 VERSION="4.0.0"
 PREFIX="ohmydebn-themes"
+OMARCHY_THEMES_DIR=~/git/omarchy/themes
+
+# Dynamically determine the list of themes from the omarchy themes directory
+THEMES=()
+for dir in "${OMARCHY_THEMES_DIR}"/*/; do
+  THEMES+=("$(basename "$dir")")
+done
 
 # Create individual package for each omarchy theme
-for THEME in catppuccin catppuccin-latte ethereal everforest flexoki-light gruvbox \
-  hackerman kanagawa last-horizon lumon lupine matte-black miasma nord osaka-jade retro-82 \
-  ristretto rose-pine solitude tokyo-night vantablack white; do
+for THEME in "${THEMES[@]}"; do
 
   echo "Working on $THEME"
   PACKAGE="${PREFIX}-${THEME}"
@@ -23,7 +28,7 @@ for THEME in catppuccin catppuccin-latte ethereal everforest flexoki-light gruvb
     --maintainer "Doug Burks<doug.burks@example.com>" \
     --description "${THEME} theme from Omarchy packaged for OhMyDebn" \
     --url "https://ohmydebn.org" \
-    ~/git/omarchy/themes/${THEME}=/usr/share/ohmydebn-themes/
+    ${OMARCHY_THEMES_DIR}/${THEME}=/usr/share/ohmydebn-themes/
 
   echo
   ls -alh ${PACKAGE}_*.deb
@@ -39,6 +44,11 @@ done
 PACKAGE="${PREFIX}-omarchy"
 rm -f ${PACKAGE}_*.deb
 
+DEPENDS=()
+for THEME in "${THEMES[@]}"; do
+  DEPENDS+=(-d "${PREFIX}-${THEME}")
+done
+
 fpm -s empty \
   -t deb \
   -n ${PACKAGE} \
@@ -47,28 +57,7 @@ fpm -s empty \
   --maintainer "Doug Burks<doug.burks@example.com>" \
   --description "Themes from Omarchy packaged for OhMyDebn" \
   --url "https://ohmydebn.org" \
-  -d ${PREFIX}-catppuccin \
-  -d ${PREFIX}-catppuccin-latte \
-  -d ${PREFIX}-ethereal \
-  -d ${PREFIX}-everforest \
-  -d ${PREFIX}-flexoki-light \
-  -d ${PREFIX}-gruvbox \
-  -d ${PREFIX}-hackerman \
-  -d ${PREFIX}-kanagawa \
-  -d ${PREFIX}-last-horizon \
-  -d ${PREFIX}-lumon \
-  -d ${PREFIX}-lupine \
-  -d ${PREFIX}-matte-black \
-  -d ${PREFIX}-miasma \
-  -d ${PREFIX}-nord \
-  -d ${PREFIX}-osaka-jade \
-  -d ${PREFIX}-retro-82 \
-  -d ${PREFIX}-ristretto \
-  -d ${PREFIX}-rose-pine \
-  -d ${PREFIX}-solitude \
-  -d ${PREFIX}-tokyo-night \
-  -d ${PREFIX}-vantablack \
-  -d ${PREFIX}-white
+  "${DEPENDS[@]}"
 
 echo
 ls -alh ${PACKAGE}_*.deb
