@@ -23,6 +23,7 @@ for PACKAGE in \
   ohmydebn-caskaydiamononerdfontpropo \
   ohmydebn-gtile \
   ohmydebn-opencode-cli \
+  ohmydebn-pi-coding-agent \
   ohmydebn-templates \
   "${THEME_PACKAGES[@]}" \
   ohmydebn-themes-omarchy \

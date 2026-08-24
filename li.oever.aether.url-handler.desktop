@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=Aether URL Handler
-Comment=Apply themes, colors, and wallpapers from aether:// web links
-Exec=/usr/share/aether/aether --handle-url %u
+Comment=Ask user for confirmation before applying themes, colors, and wallpapers from aether:// web links
+Exec=/usr/share/ohmydebn/bin/ohmydebn-aether-url-guard %u
 Icon=aether
 Terminal=false
 Type=Application
