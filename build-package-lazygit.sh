@@ -1,20 +1,19 @@
 #!/usr/bin/env bash
-
 set -euo pipefail
 
-VERSION="1.18.25"
-NAME="opencode"
-DESC="The open source AI coding agent"
-REPO="anomalyco/${NAME}"
+VERSION="0.64.1"
+NAME="lazygit"
+DESC="A simple terminal UI for git commands"
+REPO="jesseduffield/lazygit"
 URL="https://github.com/${REPO}"
-PACKAGE_NAME="ohmydebn-opencode-cli"
+PACKAGE_NAME="lazygit"
 
-rm -f ${PACKAGE_NAME}*.deb
+rm -f ${PACKAGE_NAME}_*.deb
 
 echo
 echo "Downloading amd64 binary"
-wget -q https://github.com/anomalyco/opencode/releases/download/v${VERSION}/opencode-linux-x64.tar.gz
-tar zxvf opencode-linux-x64.tar.gz
+wget -q https://github.com/${REPO}/releases/download/v${VERSION}/lazygit_${VERSION}_linux_x86_64.tar.gz
+tar zxvf lazygit_${VERSION}_linux_x86_64.tar.gz lazygit
 
 echo
 echo "Building amd64 package"
@@ -25,16 +24,16 @@ fpm -s dir -t deb \
   --description "${DESC}" \
   --url "${URL}" \
   --license "MIT" \
-  opencode=/usr/bin/opencode-cli
+  lazygit=/usr/bin/lazygit
 
 echo
 echo "Removing temp files"
-rm -f opencode ${NAME}-linux-x64.tar.gz
+rm -f lazygit lazygit_${VERSION}_linux_x86_64.tar.gz
 
 echo
 echo "Downloading arm64 binary"
-wget -q https://github.com/anomalyco/opencode/releases/download/v${VERSION}/opencode-linux-arm64.tar.gz
-tar zxvf opencode-linux-arm64.tar.gz
+wget -q https://github.com/${REPO}/releases/download/v${VERSION}/lazygit_${VERSION}_linux_arm64.tar.gz
+tar zxvf lazygit_${VERSION}_linux_arm64.tar.gz lazygit
 
 echo
 echo "Building arm64 package"
@@ -45,11 +44,11 @@ fpm -s dir -t deb \
   --description "${DESC}" \
   --url "${URL}" \
   --license "MIT" \
-  opencode=/usr/bin/opencode-cli
+  lazygit=/usr/bin/lazygit
 
 echo
 echo "Removing temp files"
-rm -f opencode ${NAME}-linux-arm64.tar.gz
+rm -f lazygit lazygit_${VERSION}_linux_arm64.tar.gz
 
 echo
 echo "Including both packages in testing repo"

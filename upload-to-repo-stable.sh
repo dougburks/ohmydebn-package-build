@@ -13,6 +13,9 @@ done
 # Include packages that have standard naming conventions
 for PACKAGE in \
   cliamp \
+  fastfetch \
+  gum \
+  lazygit \
   mint-cursor-themes \
   mint-themes \
   mint-x-icons \
@@ -30,6 +33,7 @@ for PACKAGE in \
   ohmydebn-themes \
   ohmydebn \
   spice-vdagent \
+  starship \
   touchegg \
   ttfx; do
   echo

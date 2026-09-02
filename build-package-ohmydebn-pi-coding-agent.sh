@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-VERSION="0.84.3"
+VERSION="0.84.4"
 NAME="pi"
 AUTHOR="earendil-works"
 DESC="Coding agent CLI with read, bash, edit, write tools and session management"

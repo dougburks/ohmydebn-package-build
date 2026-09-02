@@ -1,7 +1,8 @@
 #!/bin/bash
 
 PACKAGE="ohmydebn-gtile"
-VERSION="2.2.1"
+SOURCE_DIR=~/git/gTile-OhMyDebn
+VERSION=$(jq -r '.version' ${SOURCE_DIR}/metadata.json)
 rm -f ${PACKAGE}_*.deb
 
 fpm -s dir \
@@ -13,7 +14,7 @@ fpm -s dir \
   --description "gtile-OhMyDebn extension for Cinnamon desktop" \
   --url "https://ohmydebn.org" \
   -x usr/share/cinnamon/extensions/gTile@OhMyDebn/.git \
-  ~/git/gTile-OhMyDebn/=/usr/share/cinnamon/extensions/gTile@OhMyDebn
+  ${SOURCE_DIR}/=/usr/share/cinnamon/extensions/gTile@OhMyDebn
 
 echo
 ls -alh ${PACKAGE}_*.deb

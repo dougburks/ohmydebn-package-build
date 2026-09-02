@@ -20,13 +20,29 @@ mkdir -p ohmydebn/cache
 rm -f ohmydebn/cache/menu-tree-flatten.tsv
 (
   source ohmydebn/bin/ohmydebn-menu-tree
-  # Matches every real caller of menu_tree_flatten() (ohmydebn-menu-picker,
-  # tests/consistency.sh) - MT_SKIP_LABELS is baked into whatever gets
-  # cached at compute time, so this has to agree with them or Apps would
-  # leak back into search results once this shipped cache is in play.
-  MT_SKIP_LABELS=(Apps)
+  # No explicit MT_SKIP_LABELS set here on purpose, deliberately relying
+  # on ohmydebn-menu-tree's own MT_DEFAULT_SKIP_LABELS ("Other Apps")
+  # instead of hand-repeating that literal a third time (alongside
+  # ohmydebn-menu-picker's load_leaves() and tests/consistency.sh). That
+  # repetition is exactly what once let this copy drift to a stale
+  # "Apps" for a long time with no effect (nothing was ever named exactly
+  # "Apps", so it skipped nothing) - until a real top-level "Apps"
+  # category was added and the mismatch started excluding its entire
+  # subtree from the shipped cache instead, confirmed live as the cause
+  # of Apps and everything under it missing their submenu "›" marker in
+  # an otherwise fully up-to-date installed build. A single default in
+  # the sourced ohmydebn-menu-tree can't drift out of sync with itself.
   _mt_flatten_uncached ohmydebn/bin/ohmydebn-menu
-) >ohmydebn/cache/menu-tree-flatten.tsv
+# "WARN: no block for show_other_apps_menu" on stderr here is expected,
+# not a build failure - show_other_apps_menu deliberately has no static
+# menu() call (Other Apps is a live .desktop scan, not something this
+# bash-source parser can enumerate - see its own comment in
+# ohmydebn-menu), and this is exactly the tool correctly detecting that
+# and skipping it rather than silently guessing wrong. Filtered out here
+# by exact message text, not by discarding stderr wholesale, so a
+# genuinely new problem (e.g. a future menu edit breaking some other
+# function's own menu() block) still surfaces instead of going silent too.
+) >ohmydebn/cache/menu-tree-flatten.tsv 2> >(grep -vF 'WARN: no block for show_other_apps_menu' >&2)
 
 fpm -s dir \
   --output-type deb \
