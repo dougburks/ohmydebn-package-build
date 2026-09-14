@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-VERSION="2.0.0"
+VERSION="2.0.1"
 PACKAGE_NAME="gum"
 REPO="charmbracelet/gum"
 

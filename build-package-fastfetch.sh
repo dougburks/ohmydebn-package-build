@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-VERSION="2.67.1"
+VERSION="2.68.1"
 PACKAGE_NAME="fastfetch"
 REPO="fastfetch-cli/fastfetch"
 

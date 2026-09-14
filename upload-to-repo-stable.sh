@@ -15,6 +15,7 @@ for PACKAGE in \
   cliamp \
   fastfetch \
   gum \
+  herdr \
   lazygit \
   mint-cursor-themes \
   mint-themes \

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-VERSION="0.64.1"
+VERSION="0.65.1"
 NAME="lazygit"
 DESC="A simple terminal UI for git commands"
 REPO="jesseduffield/lazygit"
