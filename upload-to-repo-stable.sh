@@ -25,6 +25,7 @@ for PACKAGE in \
   ohmydebn-caskaydiamononerdfont \
   ohmydebn-caskaydiamononerdfontmono \
   ohmydebn-caskaydiamononerdfontpropo \
+  ohmydebn-codex-cli \
   ohmydebn-gtile \
   ohmydebn-opencode-cli \
   ohmydebn-pi-coding-agent \
