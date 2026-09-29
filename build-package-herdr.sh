@@ -2,7 +2,7 @@
 set -euo pipefail
 source "$(dirname "${BASH_SOURCE[0]}")/common.sh"
 
-VERSION="0.9.2"
+VERSION="0.9.3"
 DESC="The runtime your coding agents live on"
 REPO="herdrdev/herdr"
 URL="https://github.com/${REPO}"
