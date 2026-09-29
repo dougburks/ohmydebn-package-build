@@ -1,8 +1,11 @@
 #!/bin/bash
 
+set -euo pipefail
+source "$(dirname "${BASH_SOURCE[0]}")/common.sh"
+
 PACKAGE="ohmydebn"
-VERSION=$(cat ohmydebn/VERSION)
-rm -f ${PACKAGE}_*.deb
+VERSION=$(cat "${GIT_ROOT}/ohmydebn/VERSION")
+rm -f "${STAGING_DIR}"/${PACKAGE}_*.deb
 
 # Pre-build the menu search cache so even the very first launch after
 # install is fast, not just subsequent ones (ohmydebn-menu-tree's
@@ -16,10 +19,10 @@ rm -f ${PACKAGE}_*.deb
 # hardcodes those paths as literal text, so this local checkout and the
 # not-yet-installed deployed copy are byte-for-byte identical once fpm
 # copies the file across below.
-mkdir -p ohmydebn/cache
-rm -f ohmydebn/cache/menu-tree-flatten.tsv
+mkdir -p "${GIT_ROOT}/ohmydebn/cache"
+rm -f "${GIT_ROOT}/ohmydebn/cache/menu-tree-flatten.tsv"
 (
-  source ohmydebn/bin/ohmydebn-menu-tree
+  source "${GIT_ROOT}/ohmydebn/bin/ohmydebn-menu-tree"
   # No explicit MT_SKIP_LABELS set here on purpose, deliberately relying
   # on ohmydebn-menu-tree's own MT_DEFAULT_SKIP_LABELS ("Other Apps")
   # instead of hand-repeating that literal a third time (alongside
@@ -32,7 +35,7 @@ rm -f ohmydebn/cache/menu-tree-flatten.tsv
   # of Apps and everything under it missing their submenu "›" marker in
   # an otherwise fully up-to-date installed build. A single default in
   # the sourced ohmydebn-menu-tree can't drift out of sync with itself.
-  _mt_flatten_uncached ohmydebn/bin/ohmydebn-menu
+  _mt_flatten_uncached "${GIT_ROOT}/ohmydebn/bin/ohmydebn-menu"
 # "WARN: no block for show_other_apps_menu" on stderr here is expected,
 # not a build failure - show_other_apps_menu deliberately has no static
 # menu() call (Other Apps is a live .desktop scan, not something this
@@ -42,20 +45,23 @@ rm -f ohmydebn/cache/menu-tree-flatten.tsv
 # by exact message text, not by discarding stderr wholesale, so a
 # genuinely new problem (e.g. a future menu edit breaking some other
 # function's own menu() block) still surfaces instead of going silent too.
-) >ohmydebn/cache/menu-tree-flatten.tsv 2> >(grep -vF 'WARN: no block for show_other_apps_menu' >&2)
+) >"${GIT_ROOT}/ohmydebn/cache/menu-tree-flatten.tsv" 2> >(grep -vF 'WARN: no block for show_other_apps_menu' >&2)
 
 fpm -s dir \
   --output-type deb \
   --name ${PACKAGE} \
   --version ${VERSION} \
+  --package "${STAGING_DIR}/" \
   --architecture all \
   --maintainer "Doug Burks<doug.burks@example.com>" \
   --description "Debonaire Debian + Cinnamon desktop for power users" \
   --url "https://ohmydebn.org" \
-  --after-install ohmydebn-package-build/postinst-ohmydebn.sh \
+  --after-install "${BUILD_DIR}/postinst-ohmydebn.sh" \
   --exclude usr/share/ohmydebn/.git \
   --exclude usr/share/ohmydebn/themes \
   --exclude usr/share/ohmydebn/tests \
+  --exclude usr/share/ohmydebn/.claude \
+  --exclude usr/share/ohmydebn/bin/__pycache__ \
   --depends curl \
   --depends git \
   --depends mint-cursor-themes \
@@ -74,13 +80,12 @@ fpm -s dir \
   --depends toilet-fonts \
   --depends ttfx \
   --depends xdotool \
-  ~/git/ohmydebn/=/usr/share/${PACKAGE} \
-  ~/git/ohmydebn/bin/omarchy-theme-set=/usr/bin/omarchy-theme-set
+  "${GIT_ROOT}/ohmydebn/"=/usr/share/${PACKAGE} \
+  "${GIT_ROOT}/ohmydebn/bin/omarchy-theme-set"=/usr/bin/omarchy-theme-set
 
 echo
-ls -alh ${PACKAGE}_*.deb
+ls -alh "${STAGING_DIR}"/${PACKAGE}_*.deb
 echo
-cd ohmydebn-packages-testing
-reprepro remove trixie ${PACKAGE}
-reprepro -b . includedeb trixie ../${PACKAGE}_${VERSION}_all.deb
-cd - >/dev/null
+include_testing ${PACKAGE} "${STAGING_DIR}/${PACKAGE}_${VERSION}_all.deb"
+
+upload_testing

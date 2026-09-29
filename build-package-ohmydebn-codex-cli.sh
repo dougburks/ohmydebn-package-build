@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 
 set -euo pipefail
+source "$(dirname "${BASH_SOURCE[0]}")/common.sh"
 
-VERSION="0.155.1"
+VERSION="0.159.0"
 NAME="codex"
 AUTHOR="openai"
 DESC="Lightweight coding agent that runs in your terminal"
@@ -12,7 +13,8 @@ URL="https://github.com/${REPO}"
 # Codex tags releases as rust-vX.Y.Z (the old TypeScript CLI used plain vX.Y.Z).
 TAG="rust-v${VERSION}"
 
-rm -f ${PACKAGE_NAME}*.deb
+rm -f "${STAGING_DIR}"/${PACKAGE_NAME}*.deb
+enter_work_dir
 
 # Each release ships a bare codex-<triple>.tar.gz (single binary) and a
 # codex-package-<triple>.tar.gz. We want the latter: it's the layout the
@@ -44,8 +46,10 @@ for ARCHITECTURE in amd64 arm64; do
   echo
   echo "Building ${ARCHITECTURE} package"
   fpm -s dir -t deb \
+    --maintainer "Doug Burks<doug.burks@example.com>" \
     -n "${PACKAGE_NAME}" \
     -v "${VERSION}" \
+    --package "${STAGING_DIR}/" \
     --architecture ${ARCHITECTURE} \
     --description "${DESC}" \
     --url "${URL}" \
@@ -59,8 +63,8 @@ done
 
 echo
 echo "Including both packages in testing repo"
-cd ohmydebn-packages-testing
-reprepro remove trixie ${PACKAGE_NAME}
-reprepro -b . includedeb trixie ../${PACKAGE_NAME}_${VERSION}_amd64.deb
-reprepro -b . includedeb trixie ../${PACKAGE_NAME}_${VERSION}_arm64.deb
-cd - >/dev/null
+include_testing ${PACKAGE_NAME} \
+  "${STAGING_DIR}/${PACKAGE_NAME}_${VERSION}_amd64.deb" \
+  "${STAGING_DIR}/${PACKAGE_NAME}_${VERSION}_arm64.deb"
+
+upload_testing
