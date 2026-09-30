@@ -3,7 +3,7 @@
 set -euo pipefail
 source "$(dirname "${BASH_SOURCE[0]}")/common.sh"
 
-VERSION="0.159.0"
+VERSION="0.159.2"
 NAME="codex"
 AUTHOR="openai"
 DESC="Lightweight coding agent that runs in your terminal"
