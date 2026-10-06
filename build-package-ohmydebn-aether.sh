@@ -3,7 +3,7 @@
 set -euo pipefail
 source "$(dirname "${BASH_SOURCE[0]}")/common.sh"
 
-VERSION="4.31.1"
+VERSION="4.32.0"
 NAME="aether"
 AUTHOR="omacom"
 DESC="Desktop theming application"
