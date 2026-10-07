@@ -3,7 +3,7 @@
 set -euo pipefail
 source "$(dirname "${BASH_SOURCE[0]}")/common.sh"
 
-VERSION="1.0.41"
+VERSION="1.0.46"
 NAME="grok"
 DESC="SpaceXAI's terminal-based AI coding agent"
 PACKAGE_NAME="ohmydebn-grok-build"
