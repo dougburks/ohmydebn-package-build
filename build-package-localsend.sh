@@ -3,7 +3,7 @@
 set -euo pipefail
 source "$(dirname "${BASH_SOURCE[0]}")/common.sh"
 
-VERSION="1.17.0"
+VERSION="1.18.2"
 AUTHOR="localsend"
 NAME="localsend"
 REPO="${AUTHOR}/${NAME}"
