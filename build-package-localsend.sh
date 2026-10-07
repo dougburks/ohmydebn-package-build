@@ -9,16 +9,16 @@ NAME="localsend"
 REPO="${AUTHOR}/${NAME}"
 
 rm -f "${STAGING_DIR}"/LocalSend*.deb
+enter_work_dir
 
-echo
-URL="https://github.com/${REPO}/releases/download/v${VERSION}/LocalSend-${VERSION}-linux-x86-64.deb"
-echo "Downloading amd64 package from ${URL}"
-wget -q -P "${STAGING_DIR}" "${URL}"
-
-echo
-URL="https://github.com/${REPO}/releases/download/v${VERSION}/LocalSend-${VERSION}-linux-arm-64.deb"
-echo "Downloading arm64 package from ${URL}"
-wget -q -P "${STAGING_DIR}" "${URL}"
+# Upstream's own .debs are published as-is, so each one is checked against
+# the sha256 GitHub publishes for it, then moved into staging.
+for ASSET in "LocalSend-${VERSION}-linux-x86-64.deb" "LocalSend-${VERSION}-linux-arm-64.deb"; do
+  echo
+  echo "Downloading ${ASSET}"
+  download_verified "${REPO}" "v${VERSION}" "${ASSET}"
+  mv "${ASSET}" "${STAGING_DIR}/"
+done
 
 echo
 echo "Including both packages in testing repo"
