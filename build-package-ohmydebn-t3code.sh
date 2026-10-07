@@ -3,10 +3,10 @@
 set -euo pipefail
 source "$(dirname "${BASH_SOURCE[0]}")/common.sh"
 
-VERSION="0.0.42"
+VERSION="0.0.45"
 # Packaging revision: bump it when only this script's packaging changes
 # (so apt sees an upgrade), and reset it to 1 for a new upstream VERSION.
-REVISION="3"
+REVISION="1"
 PACKAGE_VERSION="${VERSION}-ohmydebn${REVISION}"
 NAME="t3code"
 AUTHOR="pingdotgg"
