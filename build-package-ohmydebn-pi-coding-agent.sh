@@ -3,7 +3,7 @@
 set -euo pipefail
 source "$(dirname "${BASH_SOURCE[0]}")/common.sh"
 
-VERSION="1.0.4"
+VERSION="1.1.0"
 NAME="pi"
 AUTHOR="earendil-works"
 DESC="Coding agent CLI with read, bash, edit, write tools and session management"
