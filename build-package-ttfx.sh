@@ -21,11 +21,21 @@ set -euo pipefail
 source "$(dirname "${BASH_SOURCE[0]}")/common.sh"
 
 VERSION="0.5.0"
+# Package revision, for a rebuild of the same ttfx version. 2: the arm64
+# package now has real shell completions (they were empty files).
+REVISION="2"
 NAME="ttfx"
 AUTHOR="omacom-io"
 DESC="Terminal text effects as a single static binary"
 REPO="${AUTHOR}/${NAME}"
 URL="https://github.com/${REPO}"
+
+# The shell completions come from running the amd64 binary (below), so this
+# runs on amd64 only, as the arm64 cross-build already assumes.
+if [ "$(dpkg --print-architecture)" != "amd64" ]; then
+  echo "This build runs on amd64 only" >&2
+  exit 1
+fi
 
 rm -f "${STAGING_DIR}"/${NAME}*.deb
 enter_work_dir
@@ -56,10 +66,20 @@ for ARCHITECTURE in amd64 arm64; do
 
   BIN="target/${TARGET}/release/${NAME}"
 
-  echo
-  echo "Generating shell completions"
-  "${BIN}" --print-completion bash >${NAME}.bash 2>/dev/null || true
-  "${BIN}" --print-completion zsh >_${NAME} 2>/dev/null || true
+  # The completions are text, the same for both architectures, and come
+  # from running the binary - which only the amd64 one (built first) can do
+  # here. Running the arm64 binary for them failed, and `|| true` shipped
+  # the arm64 package with empty completion files.
+  if [ "${ARCHITECTURE}" = "amd64" ]; then
+    echo
+    echo "Generating shell completions"
+    "${BIN}" --print-completion bash >${NAME}.bash
+    "${BIN}" --print-completion zsh >_${NAME}
+    if [ ! -s ${NAME}.bash ] || [ ! -s _${NAME} ]; then
+      echo "ttfx printed no shell completions" >&2
+      exit 1
+    fi
+  fi
 
   echo
   echo "Building ${ARCHITECTURE} package"
@@ -67,6 +87,7 @@ for ARCHITECTURE in amd64 arm64; do
     --maintainer "Doug Burks<doug.burks@example.com>" \
     -n "${NAME}" \
     -v "${VERSION}" \
+    --iteration "${REVISION}" \
     --package "${STAGING_DIR}/" \
     --architecture ${ARCHITECTURE} \
     --description "${DESC}" \
@@ -76,9 +97,9 @@ for ARCHITECTURE in amd64 arm64; do
     README.md=/usr/share/doc/${NAME}/README.md \
     ${NAME}.bash=/usr/share/bash-completion/completions/${NAME} \
     _${NAME}=/usr/share/zsh/site-functions/_${NAME}
-
-  rm -f ${NAME}.bash _${NAME}
 done
+
+rm -f ${NAME}.bash _${NAME}
 
 cd - >/dev/null
 
@@ -89,7 +110,7 @@ rm -rf ${NAME}-${VERSION} ${NAME}-${VERSION}.tar.gz
 echo
 echo "Including both packages in testing repo"
 include_testing ${NAME} \
-  "${STAGING_DIR}/${NAME}_${VERSION}_amd64.deb" \
-  "${STAGING_DIR}/${NAME}_${VERSION}_arm64.deb"
+  "${STAGING_DIR}/${NAME}_${VERSION}-${REVISION}_amd64.deb" \
+  "${STAGING_DIR}/${NAME}_${VERSION}-${REVISION}_arm64.deb"
 
 upload_testing

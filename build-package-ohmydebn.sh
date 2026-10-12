@@ -54,7 +54,7 @@ fpm -s dir \
   --package "${STAGING_DIR}/" \
   --architecture all \
   --maintainer "Doug Burks<doug.burks@example.com>" \
-  --description "Debonaire Debian + Cinnamon desktop for power users" \
+  --description "Debonair Debian + Cinnamon desktop for power users" \
   --url "https://ohmydebn.org" \
   --after-install "${BUILD_DIR}/postinst-ohmydebn.sh" \
   --exclude usr/share/ohmydebn/.git \

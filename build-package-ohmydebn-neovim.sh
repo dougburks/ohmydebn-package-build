@@ -17,7 +17,8 @@ enter_work_dir
 # Debian and Ubuntu ship Neovim versions years apart (0.10 in Debian 13, 0.9
 # in Ubuntu 24.04), and LazyVim's plugins follow current Neovim, so OhMyDebn
 # ships one tested version everywhere: upstream's own release build, which
-# needs only glibc >= 2.34, libm and libgcc.
+# needs only glibc >= 2.34, libm and libgcc. The package depends on glibc
+# 2.39 because of the tree-sitter CLI it also ships, which needs that.
 #
 # The package takes over from Debian's neovim and neovim-runtime (Provides,
 # Conflicts, Replaces) and registers the same alternatives at the same

@@ -78,10 +78,10 @@ for ARCHITECTURE in amd64 arm64; do
   cp -a squashfs-root/. "pkgroot${INSTALL_DIR}/"
 
   # T3 Code finds each agent by its usual command name on PATH (opencode,
-  # codex, grok, claude). OhMyDebn installs OpenCode as opencode-cli and
-  # Codex and Grok Build outside PATH, so agent-bin links them under the
-  # expected names, and
-  # the launcher adds agent-bin to the end of PATH for T3 Code only. T3
+  # codex, grok, claude). Claude Code's own package puts claude on PATH,
+  # but OhMyDebn installs OpenCode as opencode-cli and Codex and Grok Build
+  # outside PATH, so agent-bin links those three under the expected names,
+  # and the launcher adds agent-bin to the end of PATH for T3 Code only. T3
   # Code puts the login shell's PATH first and keeps inherited entries
   # after it, so a real opencode/codex elsewhere on PATH still wins. A link
   # to an agent that isn't installed just dangles, and T3 Code reports that

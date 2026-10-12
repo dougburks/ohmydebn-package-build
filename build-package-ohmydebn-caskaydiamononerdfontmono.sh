@@ -16,8 +16,8 @@ fpm -s dir \
   --maintainer "Doug Burks<doug.burks@example.com>" \
   --description "Caskaydia Mono Nerd Font Mono packaged for OhMyDebn" \
   --url "https://ohmydebn.org" \
-  -x usr/share/${PACKAGE}/.git \
-  -x usr/share/${PACKAGE}/.github \
+  -x usr/share/fonts/truetype/${PACKAGE}/.git \
+  -x usr/share/fonts/truetype/${PACKAGE}/.github \
   "${GIT_ROOT}/caskaydiamononerdfontmono/"=/usr/share/fonts/truetype/${PACKAGE}
 
 echo
