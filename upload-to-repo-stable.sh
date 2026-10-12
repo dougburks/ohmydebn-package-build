@@ -49,8 +49,13 @@ if [ "${SKIP_UPLOAD}" = "1" ]; then
   echo "SKIP_UPLOAD=1, not syncing to R2"
   exit 0
 fi
+# conf/ and db/ are reprepro's own working files (its configuration and
+# package database), not part of the apt repo - they used to be published
+# along with it.
 rclone sync . "r2:ohmydebn-packages" \
   --exclude "README.md" \
+  --exclude "conf/**" \
+  --exclude "db/**" \
   --s3-no-check-bucket \
   --s3-no-head \
   --no-update-modtime \

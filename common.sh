@@ -12,6 +12,12 @@ GIT_ROOT="$(dirname "${BUILD_DIR}")"
 : "${STAGING_DIR:=${GIT_ROOT}/ohmydebn-packages-staging}"
 : "${TESTING_REPO:=${GIT_ROOT}/ohmydebn-packages-testing}"
 : "${STABLE_REPO:=${GIT_ROOT}/ohmydebn-packages}"
+# Files a build creates (downloaded, extracted, compiled) are packaged
+# with the mode they get here, and fpm keeps it: with a desktop's usual
+# umask 0002 they were group-writable in the installed system. Files
+# packaged straight from a git checkout keep the checkout's own modes.
+umask 022
+
 mkdir -p "${STAGING_DIR}"
 
 # Throwaway directory, removed when the script exits (even on failure).

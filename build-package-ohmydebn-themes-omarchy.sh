@@ -74,7 +74,8 @@ for THEME in "${THEMES[@]}"; do
 
 done
 
-# Create the ohmydebn-themes-omarchy package that just contains the version file
+# The ohmydebn-themes-omarchy metapackage: no files of its own, just a
+# dependency on every theme package above, so installing it installs them all
 PACKAGE="${PREFIX}-omarchy"
 rm -f "${STAGING_DIR}"/${PACKAGE}_*.deb
 

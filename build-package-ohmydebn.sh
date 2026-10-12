@@ -62,6 +62,11 @@ fpm -s dir \
   --exclude usr/share/ohmydebn/tests \
   --exclude usr/share/ohmydebn/.claude \
   --exclude usr/share/ohmydebn/bin/__pycache__ \
+  --exclude usr/share/ohmydebn/.github \
+  --exclude usr/share/ohmydebn/.gitignore \
+  --exclude usr/share/ohmydebn/AGENTS.md \
+  --exclude usr/share/ohmydebn/CLAUDE.md \
+  --exclude usr/share/ohmydebn/CONTRIBUTING.md \
   --depends curl \
   --depends git \
   --depends mint-cursor-themes \

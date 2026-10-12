@@ -2,7 +2,7 @@
 
 Prerequisites:
 ```
-sudo apt install rubygems reprepro rclone squashfs-tools brotli
+sudo apt install rubygems reprepro rclone squashfs-tools brotli jq openssl
 sudo gem install fpm
 ```
 
@@ -18,6 +18,7 @@ These scripts expect sibling directories next to this repo (normally in `~/git/`
 | Directory | Purpose |
 |---|---|
 | `ohmydebn-packages-staging/` | Built and downloaded `.deb` files (created automatically) |
+| `ohmydebn-packages-candidates/` | Neovim plugin sets built for testing before they're published (created automatically; never uploaded) |
 | `ohmydebn-packages-testing/` | reprepro testing repo |
 | `ohmydebn-packages/` | reprepro stable repo |
 | `ohmydebn/`, `omarchy/`, `gTile-OhMyDebn/`, ... | Package sources |

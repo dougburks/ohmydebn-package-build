@@ -142,7 +142,14 @@ fi
 # already written back, still counts. Once it's tested, bumping VERSION
 # makes the next build publish as usual.
 : "${CANDIDATE_DIR:=${GIT_ROOT}/ohmydebn-packages-candidates}"
+# A plugin set just updated or extended here (LAZY_UPDATE=1, or plugins
+# the lockfile didn't have yet) is untested, so it's always a candidate -
+# even under a VERSION that isn't published yet, which the comparison
+# below alone would let through.
 CANDIDATE=0
+if [ "${LAZY_UPDATE:-0}" = "1" ] || [ "${LOCKFILE_CHANGED:-0}" = "1" ]; then
+  CANDIDATE=1
+fi
 for REPO in "${TESTING_REPO}" "${STABLE_REPO}"; do
   PUBLISHED_DEB="${REPO}/pool/main/${PACKAGE_NAME:0:1}/${PACKAGE_NAME}/${PACKAGE_NAME}_${VERSION}_amd64.deb"
   if [ -f "${PUBLISHED_DEB}" ]; then
@@ -268,10 +275,11 @@ return tools
 EOF
 
 # Installs every Mason package and waits, without blocking startup, until
-# they and blink.cmp's matcher are in, then quits. No file is opened: in the arm64 home, Neovim's own Lua ftplugin would
-# start treesitter with the arm64 parser, fail to load it, and stop at a
-# "-- More --" prompt. Writes true/false to <state>/first-launch. With FIRST_LAUNCH_BLINK=0
-# it leaves blink.cmp out (see the arm64 launch below).
+# they and blink.cmp's matcher are in, then quits. No file is opened: in
+# the arm64 home, Neovim's own Lua ftplugin would start treesitter with the
+# arm64 parser, fail to load it, and stop at a "-- More --" prompt. Writes
+# true/false to <state>/first-launch. With FIRST_LAUNCH_BLINK=0 it leaves
+# blink.cmp out (see the arm64 launch below).
 cat >first-launch.lua <<EOF
 local blink = vim.env.FIRST_LAUNCH_BLINK ~= "0"
 if blink then
@@ -525,10 +533,13 @@ fi
 
 if [ "${CANDIDATE}" = "1" ]; then
   echo
-  echo "Not published: these plugins differ from the ones published as ${VERSION}."
-  echo "To test them, copy the deb for the VM's architecture to the VM and run:"
-  echo "  sudo apt install ./${PACKAGE_NAME}_${VERSION}_amd64.deb"
-  echo "  (from ${OUT_DIR})"
+  echo "Not published: these plugins are untested, or differ from the ones published as ${VERSION}."
+  echo "To test them, copy the deb for the VM's architecture from ${OUT_DIR}:"
+  echo "  ${PACKAGE_NAME}_${VERSION}_amd64.deb or ${PACKAGE_NAME}_${VERSION}_arm64.deb"
+  echo "to the VM, and there run (with the deb's name):"
+  echo "  sudo apt install --reinstall --allow-downgrades ./<deb>"
+  echo "  ohmydebn-update"
+  echo "The update puts the new plugins into ~/.local/share/nvim; installing the deb alone doesn't."
   echo "Then bump VERSION in this script, commit the lockfile and build again to publish."
   exit 0
 fi
