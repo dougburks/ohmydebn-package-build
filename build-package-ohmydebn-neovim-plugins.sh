@@ -42,7 +42,6 @@ command -v aarch64-linux-gnu-gcc >/dev/null || {
   exit 1
 }
 
-rm -f "${STAGING_DIR}"/${PACKAGE_NAME}_*.deb
 enter_work_dir
 
 echo
@@ -132,6 +131,36 @@ else
     LOCKFILE_CHANGED=1
   fi
 fi
+
+# A plugin set that differs from the one already published under this
+# VERSION is a candidate: it goes to CANDIDATE_DIR, never to staging or
+# testing. Published under the same version, machines that already have
+# that version would never get it, and staging would hold different
+# contents under a published version for the next stable upload. Compared
+# with the lockfile in the published deb itself (testing first, then
+# stable), so rerunning a build after LAZY_UPDATE, with the new lockfile
+# already written back, still counts. Once it's tested, bumping VERSION
+# makes the next build publish as usual.
+: "${CANDIDATE_DIR:=${GIT_ROOT}/ohmydebn-packages-candidates}"
+CANDIDATE=0
+for REPO in "${TESTING_REPO}" "${STABLE_REPO}"; do
+  PUBLISHED_DEB="${REPO}/pool/main/${PACKAGE_NAME:0:1}/${PACKAGE_NAME}/${PACKAGE_NAME}_${VERSION}_amd64.deb"
+  if [ -f "${PUBLISHED_DEB}" ]; then
+    if ! cmp -s <(dpkg-deb --fsys-tarfile "${PUBLISHED_DEB}" | tar -xO ".${INSTALL_DIR}/config/lazy-lock.json" | jq -S .) \
+      <(jq -S . "${C}/lazy-lock.json"); then
+      CANDIDATE=1
+    fi
+    break
+  fi
+done
+if [ "${CANDIDATE}" = "1" ]; then
+  OUT_DIR="${CANDIDATE_DIR}"
+  echo "The plugins differ from the ones published as ${VERSION}: building a candidate in ${OUT_DIR}"
+else
+  OUT_DIR="${STAGING_DIR}"
+fi
+mkdir -p "${OUT_DIR}"
+rm -f "${OUT_DIR}"/${PACKAGE_NAME}_*.deb
 
 # Every plugin a built-in theme's neovim.lua uses must now be in the set, or
 # switching to that theme would download it.
@@ -470,7 +499,7 @@ for ARCHITECTURE in amd64 arm64; do
     --maintainer "Doug Burks<doug.burks@example.com>" \
     -n "${PACKAGE_NAME}" \
     -v "${VERSION}" \
-    --package "${STAGING_DIR}/" \
+    --package "${OUT_DIR}/" \
     --architecture ${ARCHITECTURE} \
     --description "${DESC}" \
     --url "${URL}" \
@@ -489,11 +518,19 @@ done
 if [ "${LAZY_UPDATE:-0}" = "1" ]; then
   echo
   echo "Plugins updated: ${CONFIG_SRC}/lazy-lock.json has the new versions."
-  echo "Test them, bump VERSION in this script, and commit the lockfile."
 elif [ "${LOCKFILE_CHANGED:-0}" = "1" ]; then
   echo
   echo "New plugins were added to ${CONFIG_SRC}/lazy-lock.json."
-  echo "Test them, bump VERSION in this script, and commit the lockfile."
+fi
+
+if [ "${CANDIDATE}" = "1" ]; then
+  echo
+  echo "Not published: these plugins differ from the ones published as ${VERSION}."
+  echo "To test them, copy the deb for the VM's architecture to the VM and run:"
+  echo "  sudo apt install ./${PACKAGE_NAME}_${VERSION}_amd64.deb"
+  echo "  (from ${OUT_DIR})"
+  echo "Then bump VERSION in this script, commit the lockfile and build again to publish."
+  exit 0
 fi
 
 echo
