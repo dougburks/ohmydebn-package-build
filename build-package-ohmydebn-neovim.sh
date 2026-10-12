@@ -3,7 +3,7 @@
 set -euo pipefail
 source "$(dirname "${BASH_SOURCE[0]}")/common.sh"
 
-VERSION="0.12.5"
+VERSION="0.12.6"
 TREE_SITTER_VERSION="0.27.0"
 DESC="Neovim, a Vim-based text editor (upstream release)"
 PACKAGE_NAME="ohmydebn-neovim"
