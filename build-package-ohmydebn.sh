@@ -86,7 +86,8 @@ fpm -s dir \
   --depends ttfx \
   --depends xdotool \
   "${GIT_ROOT}/ohmydebn/"=/usr/share/${PACKAGE} \
-  "${GIT_ROOT}/ohmydebn/bin/omarchy-theme-set"=/usr/bin/omarchy-theme-set
+  "${GIT_ROOT}/ohmydebn/bin/omarchy-theme-set"=/usr/bin/omarchy-theme-set \
+  "${GIT_ROOT}/ohmydebn/config/icons/ohmydebn-menu-symbolic.svg"=/usr/share/icons/hicolor/scalable/apps/ohmydebn-menu-symbolic.svg
 
 echo
 ls -alh "${STAGING_DIR}"/${PACKAGE}_*.deb
