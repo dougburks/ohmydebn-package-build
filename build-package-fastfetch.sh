@@ -2,7 +2,7 @@
 set -euo pipefail
 source "$(dirname "${BASH_SOURCE[0]}")/common.sh"
 
-VERSION="2.69.0"
+VERSION="2.70.0"
 PACKAGE_NAME="fastfetch"
 REPO="fastfetch-cli/fastfetch"
 
