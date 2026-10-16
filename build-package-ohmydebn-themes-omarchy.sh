@@ -9,7 +9,8 @@ source "$(dirname "${BASH_SOURCE[0]}")/common.sh"
 VERSION="4.0.0"
 # Bumped whenever what's shipped from the same Omarchy themes changes, so
 # apt upgrades existing installs (and removes files no longer shipped).
-REVISION="2"
+# 3: files no longer group-writable.
+REVISION="3"
 PREFIX="ohmydebn-themes"
 OMARCHY_THEMES_DIR="${GIT_ROOT}/omarchy/themes"
 
@@ -40,6 +41,9 @@ for THEME in "${THEMES[@]}"; do
 
   mkdir -p "${STAGE}"
   cp -a "${OMARCHY_THEMES_DIR}/${THEME}" "${STAGE}/"
+  # Without group write, which the checkout has under a desktop umask
+  # (fpm keeps each file's mode).
+  chmod -R go-w "${STAGE}/${THEME}"
   {
     find "${STAGE}/${THEME}/backgrounds" -type f -iname '*omarchy*' 2>/dev/null
     find "${STAGE}/${THEME}" -maxdepth 1 -type f \( -name unlock.png -o -name preview-unlock.png \)

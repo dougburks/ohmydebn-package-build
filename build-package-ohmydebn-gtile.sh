@@ -7,6 +7,7 @@ PACKAGE="ohmydebn-gtile"
 SOURCE_DIR="${GIT_ROOT}/gTile-OhMyDebn"
 VERSION=$(jq -r '.version' "${SOURCE_DIR}/metadata.json")
 rm -f "${STAGING_DIR}"/${PACKAGE}_*.deb
+stage_checkout "${SOURCE_DIR}" gtile
 
 fpm -s dir \
   -t deb \
@@ -18,7 +19,7 @@ fpm -s dir \
   --description "gtile-OhMyDebn extension for Cinnamon desktop" \
   --url "https://ohmydebn.org" \
   -x usr/share/cinnamon/extensions/gTile@OhMyDebn/.git \
-  "${SOURCE_DIR}/"=/usr/share/cinnamon/extensions/gTile@OhMyDebn
+  "${STAGED_DIR}/"=/usr/share/cinnamon/extensions/gTile@OhMyDebn
 
 echo
 ls -alh "${STAGING_DIR}"/${PACKAGE}_*.deb

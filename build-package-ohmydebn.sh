@@ -47,6 +47,10 @@ rm -f "${GIT_ROOT}/ohmydebn/cache/menu-tree-flatten.tsv"
 # function's own menu() block) still surfaces instead of going silent too.
 ) >"${GIT_ROOT}/ohmydebn/cache/menu-tree-flatten.tsv" 2> >(grep -vF 'WARN: no block for show_other_apps_menu' >&2)
 
+# Packaged from a copy without group write (see stage_checkout), taken
+# after the cache above so it ships too.
+stage_checkout "${GIT_ROOT}/ohmydebn" ohmydebn
+
 fpm -s dir \
   --output-type deb \
   --name ${PACKAGE} \
@@ -85,11 +89,11 @@ fpm -s dir \
   --depends toilet-fonts \
   --depends ttfx \
   --depends xdotool \
-  "${GIT_ROOT}/ohmydebn/"=/usr/share/${PACKAGE} \
-  "${GIT_ROOT}/ohmydebn/bin/omarchy-theme-set"=/usr/bin/omarchy-theme-set \
-  "${GIT_ROOT}/ohmydebn/config/icons/ohmydebn-menu-symbolic.svg"=/usr/share/icons/hicolor/scalable/apps/ohmydebn-menu-symbolic.svg \
-  "${GIT_ROOT}/ohmydebn/config/icons/ohmydebn-menu-outline-symbolic.svg"=/usr/share/icons/hicolor/scalable/apps/ohmydebn-menu-outline-symbolic.svg \
-  "${GIT_ROOT}/ohmydebn/config/icons/ohmydebn.svg"=/usr/share/icons/hicolor/scalable/apps/ohmydebn.svg
+  "${STAGED_DIR}/"=/usr/share/${PACKAGE} \
+  "${STAGED_DIR}/bin/omarchy-theme-set"=/usr/bin/omarchy-theme-set \
+  "${STAGED_DIR}/config/icons/ohmydebn-menu-symbolic.svg"=/usr/share/icons/hicolor/scalable/apps/ohmydebn-menu-symbolic.svg \
+  "${STAGED_DIR}/config/icons/ohmydebn-menu-outline-symbolic.svg"=/usr/share/icons/hicolor/scalable/apps/ohmydebn-menu-outline-symbolic.svg \
+  "${STAGED_DIR}/config/icons/ohmydebn.svg"=/usr/share/icons/hicolor/scalable/apps/ohmydebn.svg
 
 echo
 ls -alh "${STAGING_DIR}"/${PACKAGE}_*.deb

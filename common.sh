@@ -15,7 +15,8 @@ GIT_ROOT="$(dirname "${BUILD_DIR}")"
 # Files a build creates (downloaded, extracted, compiled) are packaged
 # with the mode they get here, and fpm keeps it: with a desktop's usual
 # umask 0002 they were group-writable in the installed system. Files
-# packaged straight from a git checkout keep the checkout's own modes.
+# from a git checkout keep the checkout's own modes, so they're packaged
+# from a copy instead (stage_checkout below).
 umask 022
 
 mkdir -p "${STAGING_DIR}"
@@ -47,6 +48,18 @@ download_verified() {
   fi
   wget -q "https://github.com/${repo}/releases/download/${tag}/${asset}"
   echo "${digest#sha256:}  ${asset}" | sha256sum -c -
+}
+
+# Copy a git checkout (without its .git) into WORK_DIR, with group and
+# other write removed, and set STAGED_DIR to the copy. Packages are built
+# from the copy because fpm keeps each file's mode, and a checkout made
+# under a desktop's umask 0002 is group-writable throughout.
+# Usage: stage_checkout <checkout dir> <name>
+stage_checkout() {
+  STAGED_DIR="${WORK_DIR}/checkout/$2"
+  mkdir -p "${STAGED_DIR}"
+  tar -C "$1" --exclude=./.git -cf - . | tar -C "${STAGED_DIR}" -xf -
+  chmod -R go-w "${STAGED_DIR}"
 }
 
 # Switch to WORK_DIR for downloads and extracted files.
