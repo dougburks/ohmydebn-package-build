@@ -3,7 +3,7 @@
 set -euo pipefail
 source "$(dirname "${BASH_SOURCE[0]}")/common.sh"
 
-VERSION="0.0.45"
+VERSION="0.1.0"
 # Packaging revision: bump it when only this script's packaging changes
 # (so apt sees an upgrade), and reset it to 1 for a new upstream VERSION.
 REVISION="1"
@@ -78,9 +78,9 @@ for ARCHITECTURE in amd64 arm64; do
   cp -a squashfs-root/. "pkgroot${INSTALL_DIR}/"
 
   # T3 Code finds each agent by its usual command name on PATH (opencode,
-  # codex, grok, claude). Claude Code's own package puts claude on PATH,
-  # but OhMyDebn installs OpenCode as opencode-cli and Codex and Grok Build
-  # outside PATH, so agent-bin links those three under the expected names,
+  # codex, grok, pi, claude). Claude Code's own package puts claude on PATH,
+  # but OhMyDebn installs OpenCode as opencode-cli and Codex, Grok Build and
+  # Pi outside PATH, so agent-bin links those four under the expected names,
   # and the launcher adds agent-bin to the end of PATH for T3 Code only. T3
   # Code puts the login shell's PATH first and keeps inherited entries
   # after it, so a real opencode/codex elsewhere on PATH still wins. A link
@@ -90,6 +90,7 @@ for ARCHITECTURE in amd64 arm64; do
   ln -s /usr/bin/opencode-cli "pkgroot${INSTALL_DIR}/agent-bin/opencode"
   ln -s /usr/lib/ohmydebn-codex-cli/bin/codex "pkgroot${INSTALL_DIR}/agent-bin/codex"
   ln -s /usr/lib/ohmydebn-grok-build/grok "pkgroot${INSTALL_DIR}/agent-bin/grok"
+  ln -s /usr/lib/ohmydebn-pi-coding-agent/pi "pkgroot${INSTALL_DIR}/agent-bin/pi"
   cat >"pkgroot${INSTALL_DIR}/ohmydebn-t3code-launch" <<EOF
 #!/bin/sh
 PATH="\${PATH}:${INSTALL_DIR}/agent-bin"
@@ -139,6 +140,7 @@ EOF
     --url "${URL}" \
     --license "MIT" \
     -d libasound2t64 \
+    -d libdbusmenu-gtk3-4 \
     -d libgbm1 \
     -d libgtk-3-0t64 \
     -d libnss3 \
