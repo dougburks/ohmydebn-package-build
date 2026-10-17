@@ -77,7 +77,7 @@ mkdir -p "${AMD64}"/{config,data,state,cache} "${ARM64}"/{config,data,state,cach
 # set replaces.
 for f in init.lua stylua.toml LICENSE lazyvim.json lazy-lock.json \
   lua/config/{lazy,options,keymaps,autocmds}.lua \
-  lua/plugins/{all-themes,omarchy-theme-hotreload,snacks-animated-scrolling-off,ohmydebn-offline}.lua \
+  lua/plugins/{all-themes,omarchy-theme-hotreload,snacks-animated-scrolling-off,snacks-dashboard-statusline,ohmydebn-offline}.lua \
   plugin/after/transparency.lua; do
   install -D -m 644 "${CONFIG_SRC}/${f}" "${C}/${f}"
 done
