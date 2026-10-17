@@ -43,6 +43,17 @@ for PACKAGE in $(printf '%s\n' "${!DEBS[@]}" | sort); do
   done
 done
 
+# Packages OhMyDebn no longer ships, which a later package took over (its
+# Replaces/Conflicts remove them from installed systems). Removing them from
+# the repo stops apt offering them; it's a no-op once they're gone.
+RETIRED_PACKAGES=(
+  ohmydebn-caskaydiamononerdfontmono  # merged into ohmydebn-caskaydiamononerdfont 3.5.1
+  ohmydebn-caskaydiamononerdfontpropo # merged into ohmydebn-caskaydiamononerdfont 3.5.1
+)
+for PACKAGE in "${RETIRED_PACKAGES[@]}"; do
+  reprepro -b . remove trixie "${PACKAGE}"
+done
+
 # Deploy to Cloudflare R2
 if [ "${SKIP_UPLOAD}" = "1" ]; then
   echo

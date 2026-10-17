@@ -4,7 +4,10 @@ set -euo pipefail
 source "$(dirname "${BASH_SOURCE[0]}")/common.sh"
 
 VERSION="0.12.6"
-TREE_SITTER_VERSION="0.27.0"
+TREE_SITTER_VERSION="0.27.1"
+# Bumped whenever the same Neovim version is rebuilt with changes (such as
+# a new tree-sitter), so apt upgrades existing installs. 1: tree-sitter 0.27.1.
+REVISION="1"
 DESC="Neovim, a Vim-based text editor (upstream release)"
 PACKAGE_NAME="ohmydebn-neovim"
 URL="https://neovim.io"
@@ -87,6 +90,7 @@ for ARCHITECTURE in amd64 arm64; do
   fpm -s dir -t deb \
     -n "${PACKAGE_NAME}" \
     -v "${VERSION}" \
+    --iteration "${REVISION}" \
     --package "${STAGING_DIR}/" \
     --architecture ${ARCHITECTURE} \
     --description "${DESC}" \
@@ -121,7 +125,7 @@ done
 echo
 echo "Including both packages in testing repo"
 include_testing ${PACKAGE_NAME} \
-  "${STAGING_DIR}/${PACKAGE_NAME}_${VERSION}_amd64.deb" \
-  "${STAGING_DIR}/${PACKAGE_NAME}_${VERSION}_arm64.deb"
+  "${STAGING_DIR}/${PACKAGE_NAME}_${VERSION}-${REVISION}_amd64.deb" \
+  "${STAGING_DIR}/${PACKAGE_NAME}_${VERSION}-${REVISION}_arm64.deb"
 
 upload_testing

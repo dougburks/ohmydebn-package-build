@@ -78,9 +78,7 @@ fpm -s dir \
   --depends mint-x-icons \
   --depends mint-y-icons \
   --depends ohmydebn-aether \
-  --depends ohmydebn-caskaydiamononerdfont \
-  --depends ohmydebn-caskaydiamononerdfontmono \
-  --depends ohmydebn-caskaydiamononerdfontpropo \
+  --depends "ohmydebn-caskaydiamononerdfont (>= 3.5.1)" \
   --depends ohmydebn-gtile \
   --depends ohmydebn-templates \
   --depends ohmydebn-themes \

@@ -2,7 +2,7 @@
 set -euo pipefail
 source "$(dirname "${BASH_SOURCE[0]}")/common.sh"
 
-VERSION="0.66.1"
+VERSION="0.66.2"
 DESC="A simple terminal UI for git commands"
 REPO="jesseduffield/lazygit"
 URL="https://github.com/${REPO}"

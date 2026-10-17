@@ -3,7 +3,7 @@
 set -euo pipefail
 source "$(dirname "${BASH_SOURCE[0]}")/common.sh"
 
-VERSION="1.26.0"
+VERSION="1.27.0"
 DESC="The minimal, blazing-fast, and infinitely customizable prompt for any shell"
 REPO="starship/starship"
 URL="https://github.com/${REPO}"

@@ -3,7 +3,7 @@
 set -euo pipefail
 source "$(dirname "${BASH_SOURCE[0]}")/common.sh"
 
-VERSION="1.19.0"
+VERSION="1.19.3"
 NAME="opencode"
 DESC="The open source AI coding agent"
 REPO="anomalyco/${NAME}"

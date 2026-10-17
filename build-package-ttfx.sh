@@ -25,7 +25,7 @@ VERSION="0.5.0"
 # package now has real shell completions (they were empty files).
 REVISION="2"
 NAME="ttfx"
-AUTHOR="omacom-io"
+AUTHOR="omacom"
 DESC="Terminal text effects as a single static binary"
 REPO="${AUTHOR}/${NAME}"
 URL="https://github.com/${REPO}"

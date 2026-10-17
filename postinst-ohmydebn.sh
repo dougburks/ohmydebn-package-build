@@ -30,7 +30,7 @@ fi
 # the new packages' modes, but dpkg leaves folders that already exist as
 # they are, so fix those here, in this package and the ones it depends on.
 for DIR in /usr/share/ohmydebn /usr/share/ohmydebn-themes /usr/share/ohmydebn-templates \
-  /usr/share/cinnamon/extensions/gTile@OhMyDebn; do
+  /usr/share/cinnamon/extensions/gTile@OhMyDebn /usr/share/fonts/truetype/ohmydebn-caskaydiamononerdfont; do
   if [ -d "${DIR}" ]; then
     find "${DIR}" -type d -perm /022 -exec chmod go-w {} + 2>/dev/null || true
   fi
