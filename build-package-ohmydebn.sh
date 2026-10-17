@@ -82,7 +82,7 @@ fpm -s dir \
   --depends ohmydebn-gtile \
   --depends ohmydebn-templates \
   --depends ohmydebn-themes \
-  --depends ohmydebn-themes-omarchy \
+  --depends "ohmydebn-themes-omarchy (>= 4.0.0-4)" \
   --depends toilet \
   --depends toilet-fonts \
   --depends ttfx \

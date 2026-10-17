@@ -49,6 +49,15 @@ done
 RETIRED_PACKAGES=(
   ohmydebn-caskaydiamononerdfontmono  # merged into ohmydebn-caskaydiamononerdfont 3.5.1
   ohmydebn-caskaydiamononerdfontpropo # merged into ohmydebn-caskaydiamononerdfont 3.5.1
+  # merged into ohmydebn-themes-omarchy 4.0.0-4
+  ohmydebn-themes-catppuccin ohmydebn-themes-catppuccin-latte ohmydebn-themes-ethereal
+  ohmydebn-themes-everforest ohmydebn-themes-flexoki-light ohmydebn-themes-gruvbox
+  ohmydebn-themes-hackerman ohmydebn-themes-kanagawa ohmydebn-themes-last-horizon
+  ohmydebn-themes-lumon ohmydebn-themes-lupine ohmydebn-themes-matte-black
+  ohmydebn-themes-miasma ohmydebn-themes-nord ohmydebn-themes-osaka-jade
+  ohmydebn-themes-retro-82 ohmydebn-themes-ristretto ohmydebn-themes-rose-pine
+  ohmydebn-themes-solitude ohmydebn-themes-tokyo-night ohmydebn-themes-vantablack
+  ohmydebn-themes-white
 )
 for PACKAGE in "${RETIRED_PACKAGES[@]}"; do
   reprepro -b . remove trixie "${PACKAGE}"

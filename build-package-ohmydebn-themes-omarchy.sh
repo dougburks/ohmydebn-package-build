@@ -9,10 +9,28 @@ source "$(dirname "${BASH_SOURCE[0]}")/common.sh"
 VERSION="4.0.0"
 # Bumped whenever what's shipped from the same Omarchy themes changes, so
 # apt upgrades existing installs (and removes files no longer shipped).
-# 3: files no longer group-writable.
-REVISION="3"
-PREFIX="ohmydebn-themes"
+# 3: files no longer group-writable. 4: one package for all the themes.
+REVISION="4"
+PACKAGE="ohmydebn-themes-omarchy"
 OMARCHY_THEMES_DIR="${GIT_ROOT}/omarchy/themes"
+
+# Up to 4.0.0-3 each theme was its own package (to keep files small for
+# GitHub Pages), with ohmydebn-themes-omarchy an empty package depending on
+# them all. Now it holds every theme itself and takes over those packages
+# (Replaces moves their files, Conflicts makes apt remove them). A theme
+# Omarchy drops later then disappears with the next update, instead of
+# staying behind in a package nothing depends on. Themes added since never
+# had a package, so this list stays as it is.
+OLD_PACKAGES=(
+  ohmydebn-themes-catppuccin ohmydebn-themes-catppuccin-latte ohmydebn-themes-ethereal
+  ohmydebn-themes-everforest ohmydebn-themes-flexoki-light ohmydebn-themes-gruvbox
+  ohmydebn-themes-hackerman ohmydebn-themes-kanagawa ohmydebn-themes-last-horizon
+  ohmydebn-themes-lumon ohmydebn-themes-lupine ohmydebn-themes-matte-black
+  ohmydebn-themes-miasma ohmydebn-themes-nord ohmydebn-themes-osaka-jade
+  ohmydebn-themes-retro-82 ohmydebn-themes-ristretto ohmydebn-themes-rose-pine
+  ohmydebn-themes-solitude ohmydebn-themes-tokyo-night ohmydebn-themes-vantablack
+  ohmydebn-themes-white
+)
 
 # Images that say "Omarchy", which would confuse OhMyDebn users, aren't
 # shipped: the backgrounds showing the OMARCHY wordmark (all named
@@ -26,24 +44,18 @@ EXCLUDED_BACKGROUNDS=(
 )
 STAGE="${WORK_DIR}/themes"
 
-# Dynamically determine the list of themes from the omarchy themes directory
-THEMES=()
-for dir in "${OMARCHY_THEMES_DIR}"/*/; do
-  THEMES+=("$(basename "$dir")")
+rm -f "${STAGING_DIR}"/${PACKAGE}_*.deb
+# The old theme packages' debs too, so promoting staging to stable doesn't
+# bring them back.
+for OLD in "${OLD_PACKAGES[@]}"; do
+  rm -f "${STAGING_DIR}"/${OLD}_*.deb
 done
 
-# Create individual package for each omarchy theme
-for THEME in "${THEMES[@]}"; do
-
+mkdir -p "${STAGE}"
+for dir in "${OMARCHY_THEMES_DIR}"/*/; do
+  THEME="$(basename "$dir")"
   echo "Working on $THEME"
-  PACKAGE="${PREFIX}-${THEME}"
-  rm -f "${STAGING_DIR}"/${PACKAGE}_*.deb
-
-  mkdir -p "${STAGE}"
   cp -a "${OMARCHY_THEMES_DIR}/${THEME}" "${STAGE}/"
-  # Without group write, which the checkout has under a desktop umask
-  # (fpm keeps each file's mode).
-  chmod -R go-w "${STAGE}/${THEME}"
   {
     find "${STAGE}/${THEME}/backgrounds" -type f -iname '*omarchy*' 2>/dev/null
     find "${STAGE}/${THEME}" -maxdepth 1 -type f \( -name unlock.png -o -name preview-unlock.png \)
@@ -58,37 +70,17 @@ for THEME in "${THEMES[@]}"; do
     echo "${THEME} would ship no backgrounds" >&2
     exit 1
   fi
+done
+# Without group write, which the checkout has under a desktop umask (fpm
+# keeps each file's mode).
+chmod -R go-w "${STAGE}"
 
-  fpm -s dir \
-    -t deb \
-    -n ${PACKAGE} \
-    -v ${VERSION} \
-    --iteration ${REVISION} \
-    --package "${STAGING_DIR}/" \
-    -a all \
-    --maintainer "Doug Burks<doug.burks@example.com>" \
-    --description "${THEME} theme from Omarchy packaged for OhMyDebn" \
-    --url "https://ohmydebn.org" \
-    "${STAGE}/${THEME}"=/usr/share/ohmydebn-themes/
-
-  echo
-  ls -alh "${STAGING_DIR}"/${PACKAGE}_*.deb
-  echo
-  include_testing ${PACKAGE} "${STAGING_DIR}/${PACKAGE}_${VERSION}-${REVISION}_all.deb"
-
+TAKEOVER=()
+for OLD in "${OLD_PACKAGES[@]}"; do
+  TAKEOVER+=(--replaces "${OLD}" --conflicts "${OLD}")
 done
 
-# The ohmydebn-themes-omarchy metapackage: no files of its own, just a
-# dependency on every theme package above, so installing it installs them all
-PACKAGE="${PREFIX}-omarchy"
-rm -f "${STAGING_DIR}"/${PACKAGE}_*.deb
-
-DEPENDS=()
-for THEME in "${THEMES[@]}"; do
-  DEPENDS+=(-d "${PREFIX}-${THEME}")
-done
-
-fpm -s empty \
+fpm -s dir \
   -t deb \
   -n ${PACKAGE} \
   -v ${VERSION} \
@@ -98,11 +90,16 @@ fpm -s empty \
   --maintainer "Doug Burks<doug.burks@example.com>" \
   --description "Themes from Omarchy packaged for OhMyDebn" \
   --url "https://ohmydebn.org" \
-  "${DEPENDS[@]}"
+  "${TAKEOVER[@]}" \
+  "${STAGE}/"=/usr/share/ohmydebn-themes
 
 echo
 ls -alh "${STAGING_DIR}"/${PACKAGE}_*.deb
 echo
 include_testing ${PACKAGE} "${STAGING_DIR}/${PACKAGE}_${VERSION}-${REVISION}_all.deb"
+# The packages this one took over, so the repo stops offering them.
+for OLD in "${OLD_PACKAGES[@]}"; do
+  reprepro -b "${TESTING_REPO}" remove trixie "${OLD}"
+done
 
 upload_testing
