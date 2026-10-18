@@ -22,8 +22,10 @@ source "$(dirname "${BASH_SOURCE[0]}")/common.sh"
 
 VERSION="0.5.0"
 # Package revision, for a rebuild of the same ttfx version. 2: the arm64
-# package now has real shell completions (they were empty files).
-REVISION="2"
+# package now has real shell completions (they were empty files). 3:
+# rebuilt without group write on its files (built before common.sh's
+# umask, they were group-writable once installed).
+REVISION="3"
 NAME="ttfx"
 AUTHOR="omacom"
 DESC="Terminal text effects as a single static binary"
