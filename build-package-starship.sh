@@ -20,7 +20,7 @@ tar zxvf starship-x86_64-unknown-linux-gnu.tar.gz
 echo
 echo "Building amd64 package"
 fpm -s dir -t deb \
-  --maintainer "Doug Burks<doug.burks@example.com>" \
+  --maintainer "Doug Burks <https://github.com/dougburks/ohmydebn>" \
   -n "${PACKAGE_NAME}" \
   -v "${VERSION}" \
   --package "${STAGING_DIR}/" \
@@ -45,7 +45,7 @@ tar zxvf starship-aarch64-unknown-linux-musl.tar.gz
 echo
 echo "Building arm64 package"
 fpm -s dir -t deb \
-  --maintainer "Doug Burks<doug.burks@example.com>" \
+  --maintainer "Doug Burks <https://github.com/dougburks/ohmydebn>" \
   -n "${PACKAGE_NAME}" \
   -v "${VERSION}" \
   --package "${STAGING_DIR}/" \

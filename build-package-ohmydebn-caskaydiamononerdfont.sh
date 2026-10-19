@@ -41,7 +41,7 @@ fpm -s dir \
   -v ${VERSION} \
   --package "${STAGING_DIR}/" \
   -a all \
-  --maintainer "Doug Burks<doug.burks@example.com>" \
+  --maintainer "Doug Burks <https://github.com/dougburks/ohmydebn>" \
   --description "Caskaydia Mono Nerd Font (with its Mono and Propo variants) packaged for OhMyDebn" \
   --url "https://ohmydebn.org" \
   "${TAKEOVER[@]}" \

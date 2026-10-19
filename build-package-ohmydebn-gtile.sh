@@ -15,7 +15,7 @@ fpm -s dir \
   -v ${VERSION} \
   --package "${STAGING_DIR}/" \
   -a all \
-  --maintainer "Doug Burks<doug.burks@example.com>" \
+  --maintainer "Doug Burks <https://github.com/dougburks/ohmydebn>" \
   --description "gtile-OhMyDebn extension for Cinnamon desktop" \
   --url "https://ohmydebn.org" \
   -x usr/share/cinnamon/extensions/gTile@OhMyDebn/.git \

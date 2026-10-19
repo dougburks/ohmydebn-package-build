@@ -29,7 +29,7 @@ chmod +x ${NAME}-linux-arm64
 echo
 echo "Building amd64 package"
 fpm -s dir -t deb \
-  --maintainer "Doug Burks<doug.burks@example.com>" \
+  --maintainer "Doug Burks <https://github.com/dougburks/ohmydebn>" \
   -n "${NAME}" \
   -v "${VERSION}" \
   --iteration "${REVISION}" \
@@ -46,7 +46,7 @@ fpm -s dir -t deb \
 echo
 echo "Building arm64 package"
 fpm -s dir -t deb \
-  --maintainer "Doug Burks<doug.burks@example.com>" \
+  --maintainer "Doug Burks <https://github.com/dougburks/ohmydebn>" \
   -n "${NAME}" \
   -v "${VERSION}" \
   --iteration "${REVISION}" \

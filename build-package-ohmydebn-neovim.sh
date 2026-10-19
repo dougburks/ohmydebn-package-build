@@ -95,7 +95,7 @@ for ARCHITECTURE in amd64 arm64; do
     --architecture ${ARCHITECTURE} \
     --description "${DESC}" \
     --url "${URL}" \
-    --maintainer "Doug Burks<doug.burks@example.com>" \
+    --maintainer "Doug Burks <https://github.com/dougburks/ohmydebn>" \
     --license "Apache-2.0 and Vim" \
     --depends "libc6 (>= 2.39)" \
     --depends "libgcc-s1" \

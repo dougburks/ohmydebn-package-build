@@ -87,7 +87,7 @@ fpm -s dir \
   --iteration ${REVISION} \
   --package "${STAGING_DIR}/" \
   -a all \
-  --maintainer "Doug Burks<doug.burks@example.com>" \
+  --maintainer "Doug Burks <https://github.com/dougburks/ohmydebn>" \
   --description "Themes from Omarchy packaged for OhMyDebn" \
   --url "https://ohmydebn.org" \
   "${TAKEOVER[@]}" \

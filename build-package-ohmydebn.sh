@@ -23,18 +23,6 @@ mkdir -p "${GIT_ROOT}/ohmydebn/cache"
 rm -f "${GIT_ROOT}/ohmydebn/cache/menu-tree-flatten.tsv"
 (
   source "${GIT_ROOT}/ohmydebn/bin/ohmydebn-menu-tree"
-  # No explicit MT_SKIP_LABELS set here on purpose, deliberately relying
-  # on ohmydebn-menu-tree's own MT_DEFAULT_SKIP_LABELS ("Other Apps")
-  # instead of hand-repeating that literal a third time (alongside
-  # ohmydebn-menu-picker's load_leaves() and tests/consistency.sh). That
-  # repetition is exactly what once let this copy drift to a stale
-  # "Apps" for a long time with no effect (nothing was ever named exactly
-  # "Apps", so it skipped nothing) - until a real top-level "Apps"
-  # category was added and the mismatch started excluding its entire
-  # subtree from the shipped cache instead, confirmed live as the cause
-  # of Apps and everything under it missing their submenu "›" marker in
-  # an otherwise fully up-to-date installed build. A single default in
-  # the sourced ohmydebn-menu-tree can't drift out of sync with itself.
   _mt_flatten_uncached "${GIT_ROOT}/ohmydebn/bin/ohmydebn-menu"
 # "WARN: no block for show_other_apps_menu" on stderr here is expected,
 # not a build failure - show_other_apps_menu deliberately has no static
@@ -57,7 +45,7 @@ fpm -s dir \
   --version ${VERSION} \
   --package "${STAGING_DIR}/" \
   --architecture all \
-  --maintainer "Doug Burks<doug.burks@example.com>" \
+  --maintainer "Doug Burks <https://github.com/dougburks/ohmydebn>" \
   --description "Debonair Debian + Cinnamon desktop for power users" \
   --url "https://ohmydebn.org" \
   --after-install "${BUILD_DIR}/postinst-ohmydebn.sh" \

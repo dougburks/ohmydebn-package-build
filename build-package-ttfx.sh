@@ -86,7 +86,7 @@ for ARCHITECTURE in amd64 arm64; do
   echo
   echo "Building ${ARCHITECTURE} package"
   fpm -s dir -t deb \
-    --maintainer "Doug Burks<doug.burks@example.com>" \
+    --maintainer "Doug Burks <https://github.com/dougburks/ohmydebn>" \
     -n "${NAME}" \
     -v "${VERSION}" \
     --iteration "${REVISION}" \

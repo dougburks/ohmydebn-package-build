@@ -18,7 +18,7 @@ fpm -s dir \
   --iteration ${REVISION} \
   --package "${STAGING_DIR}/" \
   -a all \
-  --maintainer "Doug Burks<doug.burks@example.com>" \
+  --maintainer "Doug Burks <https://github.com/dougburks/ohmydebn>" \
   --description "Themes for OhMyDebn" \
   --url "https://ohmydebn.org" \
   "${STAGED_DIR}/"=/usr/share/${PACKAGE}

@@ -19,7 +19,7 @@ tar zxvf lazygit_${VERSION}_linux_x86_64.tar.gz lazygit
 echo
 echo "Building amd64 package"
 fpm -s dir -t deb \
-  --maintainer "Doug Burks<doug.burks@example.com>" \
+  --maintainer "Doug Burks <https://github.com/dougburks/ohmydebn>" \
   -n "${PACKAGE_NAME}" \
   -v "${VERSION}" \
   --package "${STAGING_DIR}/" \
@@ -41,7 +41,7 @@ tar zxvf lazygit_${VERSION}_linux_arm64.tar.gz lazygit
 echo
 echo "Building arm64 package"
 fpm -s dir -t deb \
-  --maintainer "Doug Burks<doug.burks@example.com>" \
+  --maintainer "Doug Burks <https://github.com/dougburks/ohmydebn>" \
   -n "${PACKAGE_NAME}" \
   -v "${VERSION}" \
   --package "${STAGING_DIR}/" \
