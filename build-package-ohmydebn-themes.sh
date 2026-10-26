@@ -6,8 +6,13 @@ source "$(dirname "${BASH_SOURCE[0]}")/common.sh"
 PACKAGE="ohmydebn-themes"
 VERSION="4.0.0"
 # Bumped whenever the same version is rebuilt with changes, so apt
-# upgrades existing installs. 1: files no longer group-writable.
-REVISION="1"
+# upgrades existing installs. 1: files no longer group-writable. 2: intros
+# for the OhMyDebn theme's salty_mountains and yosemite backgrounds
+# (rendered by render-ohmydebn-theme-intros.py). 3: those intros start on
+# the background instead of black. 4: the light arriving and a shimmer,
+# instead of the grin. 5: no intros: ohmydebn-theme-intro-play now draws
+# that light intro live for any background without a clip of its own.
+REVISION="5"
 rm -f "${STAGING_DIR}"/${PACKAGE}_*.deb
 stage_checkout "${GIT_ROOT}/ohmydebn/themes" themes
 

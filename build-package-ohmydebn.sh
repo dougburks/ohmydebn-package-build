@@ -39,6 +39,11 @@ rm -f "${GIT_ROOT}/ohmydebn/cache/menu-tree-flatten.tsv"
 # after the cache above so it ships too.
 stage_checkout "${GIT_ROOT}/ohmydebn" ohmydebn
 
+# The login entry for theme intros (/etc/xdg/autostart) came with
+# ohmydebn-themes-omarchy-intros before every background had an intro; the
+# Replaces and Breaks let this package take it over from that one's first
+# testing build.
+
 fpm -s dir \
   --output-type deb \
   --name ${PACKAGE} \
@@ -75,11 +80,14 @@ fpm -s dir \
   --depends toilet-fonts \
   --depends ttfx \
   --depends xdotool \
+  --replaces "ohmydebn-themes-omarchy-intros (<< 4.5.0~rc1-2)" \
+  --deb-field "Breaks: ohmydebn-themes-omarchy-intros (<< 4.5.0~rc1-2)" \
   "${STAGED_DIR}/"=/usr/share/${PACKAGE} \
   "${STAGED_DIR}/bin/omarchy-theme-set"=/usr/bin/omarchy-theme-set \
   "${STAGED_DIR}/config/icons/ohmydebn-menu-symbolic.svg"=/usr/share/icons/hicolor/scalable/apps/ohmydebn-menu-symbolic.svg \
   "${STAGED_DIR}/config/icons/ohmydebn-menu-outline-symbolic.svg"=/usr/share/icons/hicolor/scalable/apps/ohmydebn-menu-outline-symbolic.svg \
-  "${STAGED_DIR}/config/icons/ohmydebn.svg"=/usr/share/icons/hicolor/scalable/apps/ohmydebn.svg
+  "${STAGED_DIR}/config/icons/ohmydebn.svg"=/usr/share/icons/hicolor/scalable/apps/ohmydebn.svg \
+  "${STAGED_DIR}/config/autostart/ohmydebn-theme-intro.desktop"=/etc/xdg/autostart/ohmydebn-theme-intro.desktop
 
 echo
 ls -alh "${STAGING_DIR}"/${PACKAGE}_*.deb
