@@ -25,6 +25,7 @@ VERSION="0.5.1"
 # for a new upstream VERSION.
 REVISION="1"
 NAME="ttfx"
+SOURCE_SHA256="3f10b987b7690aa3caa2fa4f1749d8c7904e177380eff3e000d3422da8eb0134"
 AUTHOR="omacom"
 DESC="Terminal text effects as a single static binary"
 REPO="${AUTHOR}/${NAME}"
@@ -43,6 +44,13 @@ enter_work_dir
 echo
 echo "Downloading source for v${VERSION}"
 wget -q -O ${NAME}-${VERSION}.tar.gz "${URL}/archive/refs/tags/v${VERSION}.tar.gz"
+# GitHub publishes no digest for a tag's source tarball, and a tag can be
+# moved, so the code built under this VERSION is pinned here: the tarball
+# as downloaded on 2026-10-26 (tag v0.5.1 at commit 14ed274). A new VERSION
+# needs a new one. Should GitHub ever regenerate its archives byte for
+# byte differently, check the tag still points at the same commit before
+# updating it.
+echo "${SOURCE_SHA256}  ${NAME}-${VERSION}.tar.gz" | sha256sum -c -
 tar zxf ${NAME}-${VERSION}.tar.gz
 cd ${NAME}-${VERSION}
 

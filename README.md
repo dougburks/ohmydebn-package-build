@@ -2,12 +2,13 @@
 
 Prerequisites:
 ```
-sudo apt install rubygems reprepro rclone squashfs-tools brotli jq openssl
+sudo apt install rubygems reprepro rclone squashfs-tools brotli jq openssl ffmpeg
 sudo gem install fpm
 ```
 
 `squashfs-tools` is needed by `build-package-ohmydebn-t3code.sh` to unpack AppImages.
 `brotli` is needed by `build-package-ohmydebn-grok-build.sh` to unpack the Grok binary.
+`ffmpeg` (with its VP9 encoder, libvpx) is needed by `build-package-ohmydebn-themes-omarchy-intros.sh` to re-encode the intro clips.
 `build-package-ttfx.sh` builds from source with Debian's newer Rust (`rustc-web`, which replaces the default `rustc`), cross-compiling arm64: `sudo dpkg --add-architecture arm64 && sudo apt update && sudo apt install rustc-web cargo-web libstd-rust-web-dev:arm64 gcc-aarch64-linux-gnu`.
 `build-package-ohmydebn-neovim-plugins.sh` runs on amd64 only and needs `gcc-aarch64-linux-gnu` (the arm64 parsers are cross-compiled; `build-package-ttfx.sh` needs it too) and `unshare` (util-linux) for its offline check.
 
@@ -40,7 +41,7 @@ Uploads prompt for the rclone config password. To avoid the prompt, set `RCLONE_
 
 ## Omarchy themes
 
-`build-package-ohmydebn-themes-omarchy.sh` and `build-package-ohmydebn-themes-omarchy-intros.sh` package from the `omarchy/` checkout, and both stop unless it is at `OMARCHY_THEMES_TAG` in `common.sh` with nothing under `themes/` changed. To move to a new Omarchy release: `git -C ~/git/omarchy fetch --tags`, check out the new tag there, update `OMARCHY_THEMES_TAG`, and rebuild both packages.
+`build-package-ohmydebn-themes-omarchy.sh` packages the themes from the `omarchy/` checkout. `build-package-ohmydebn-themes-omarchy-intros.sh` takes its clips from a pinned commit of its own (`OMARCHY_TAG` and `OMARCHY_COMMIT` there), but ships only those whose background the themes package has, which it reads from the same checkout. Both stop unless the checkout is at `OMARCHY_THEMES_TAG` in `common.sh` with nothing under `themes/` changed. To move to a new Omarchy release: `git -C ~/git/omarchy fetch --tags`, check out the new tag there, update `OMARCHY_THEMES_TAG` (and the intros script's pin, if its clips change), and rebuild both packages.
 
 ## Tests
 
