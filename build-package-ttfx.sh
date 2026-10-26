@@ -20,12 +20,10 @@
 set -euo pipefail
 source "$(dirname "${BASH_SOURCE[0]}")/common.sh"
 
-VERSION="0.5.0"
-# Package revision, for a rebuild of the same ttfx version. 2: the arm64
-# package now has real shell completions (they were empty files). 3:
-# rebuilt without group write on its files (built before common.sh's
-# umask, they were group-writable once installed).
-REVISION="3"
+VERSION="0.5.1"
+# Package revision, for a rebuild of the same ttfx version; reset it to 1
+# for a new upstream VERSION.
+REVISION="1"
 NAME="ttfx"
 AUTHOR="omacom"
 DESC="Terminal text effects as a single static binary"
