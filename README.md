@@ -37,3 +37,11 @@ Set `SKIP_UPLOAD=1` on either step to update the local repo without syncing to R
 After a `SKIP_UPLOAD=1` build, `upload-to-repo-testing.sh` publishes the testing repo by hand.
 
 Uploads prompt for the rclone config password. To avoid the prompt, set `RCLONE_CONFIG_PASS` or `RCLONE_PASSWORD_COMMAND` in your shell.
+
+## Omarchy themes
+
+`build-package-ohmydebn-themes-omarchy.sh` and `build-package-ohmydebn-themes-omarchy-intros.sh` package from the `omarchy/` checkout, and both stop unless it is at `OMARCHY_THEMES_TAG` in `common.sh` with nothing under `themes/` changed. To move to a new Omarchy release: `git -C ~/git/omarchy fetch --tags`, check out the new tag there, update `OMARCHY_THEMES_TAG`, and rebuild both packages.
+
+## Tests
+
+`tests/test-require-omarchy-checkout.sh` tests that check. It uses scratch git repositories and touches nothing else.

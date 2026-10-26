@@ -62,6 +62,36 @@ stage_checkout() {
   chmod -R go-w "${STAGED_DIR}"
 }
 
+# The Omarchy release the Omarchy themes are packaged from. The themes come
+# from the omarchy checkout next to this repo as it stands, so without this
+# a `git pull` there quietly packaged whatever its branch had reached (a
+# release candidate's renamed backgrounds and replaced themes, say). The
+# intros package checks it too: it ships a clip only for a background this
+# release has. To move to a new release, check out its tag in the omarchy
+# checkout and change this.
+OMARCHY_THEMES_TAG="v4.0.0"
+
+# Stop unless the omarchy checkout is at OMARCHY_THEMES_TAG, with nothing in
+# themes/ changed or added since.
+# Usage: require_omarchy_checkout <omarchy checkout dir>
+require_omarchy_checkout() {
+  local dir="$1" tag_commit
+  if ! tag_commit=$(git -C "${dir}" rev-parse -q --verify "refs/tags/${OMARCHY_THEMES_TAG}^{commit}"); then
+    echo "${dir} has no tag ${OMARCHY_THEMES_TAG}; run: git -C ${dir} fetch --tags" >&2
+    exit 1
+  fi
+  if [[ "$(git -C "${dir}" rev-parse HEAD)" != "${tag_commit}" ]]; then
+    echo "${dir} is at $(git -C "${dir}" describe --tags --always HEAD), not ${OMARCHY_THEMES_TAG}" >&2
+    echo "Run: git -C ${dir} checkout ${OMARCHY_THEMES_TAG} (or change OMARCHY_THEMES_TAG in common.sh)" >&2
+    exit 1
+  fi
+  if [[ -n "$(git -C "${dir}" status --porcelain --untracked-files=all -- themes)" ]]; then
+    echo "${dir}/themes has changes not in ${OMARCHY_THEMES_TAG}:" >&2
+    git -C "${dir}" status --short --untracked-files=all -- themes >&2
+    exit 1
+  fi
+}
+
 # Switch to WORK_DIR for downloads and extracted files.
 enter_work_dir() {
   cd "${WORK_DIR}" || exit 1

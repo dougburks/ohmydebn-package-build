@@ -3,10 +3,9 @@
 set -euo pipefail
 source "$(dirname "${BASH_SOURCE[0]}")/common.sh"
 
-# Omarchy version currently has an alpha tag
-#VERSION=$(cat "${GIT_ROOT}/omarchy/version")
-# so let's hardcode it for now:
-VERSION="4.0.0"
+# The Omarchy release the themes come from (OMARCHY_THEMES_TAG, in
+# common.sh), checked against the omarchy checkout below.
+VERSION="${OMARCHY_THEMES_TAG#v}"
 # Bumped whenever what's shipped from the same Omarchy themes changes, so
 # apt upgrades existing installs (and removes files no longer shipped).
 # 3: files no longer group-writable. 4: one package for all the themes.
@@ -43,6 +42,8 @@ EXCLUDED_BACKGROUNDS=(
   "lumon/backgrounds/02-opinions-equally.jpg" # "OMARCHY - Enjoy Each Opinion Equally"
 )
 STAGE="${WORK_DIR}/themes"
+
+require_omarchy_checkout "${GIT_ROOT}/omarchy"
 
 rm -f "${STAGING_DIR}"/${PACKAGE}_*.deb
 # The old theme packages' debs too, so promoting staging to stable doesn't
