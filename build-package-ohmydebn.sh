@@ -39,6 +39,14 @@ rm -f "${GIT_ROOT}/ohmydebn/cache/menu-tree-flatten.tsv"
 # after the cache above so it ships too.
 stage_checkout "${GIT_ROOT}/ohmydebn" ohmydebn
 
+# ohmydebn-pdf-sign's launcher goes in /usr/share/applications rather than
+# being written per user like the OhMyDebn Menu's: it carries
+# MimeType=application/pdf so the signer shows under Open With for PDFs,
+# which dpkg's update-desktop-database trigger (desktop-file-utils) indexes
+# for every user, and it goes away with the package. Having the MIME type
+# doesn't make it the default for PDFs: ohmydebn-browser-set-default sets
+# the browser in each user's mimeapps.list, which wins.
+#
 # The login entry for theme intros (/etc/xdg/autostart) came with
 # ohmydebn-themes-omarchy-intros before every background had an intro; the
 # Replaces and Breaks let this package take it over from that one's first
@@ -87,6 +95,8 @@ fpm -s dir \
   "${STAGED_DIR}/config/icons/ohmydebn-menu-symbolic.svg"=/usr/share/icons/hicolor/scalable/apps/ohmydebn-menu-symbolic.svg \
   "${STAGED_DIR}/config/icons/ohmydebn-menu-outline-symbolic.svg"=/usr/share/icons/hicolor/scalable/apps/ohmydebn-menu-outline-symbolic.svg \
   "${STAGED_DIR}/config/icons/ohmydebn.svg"=/usr/share/icons/hicolor/scalable/apps/ohmydebn.svg \
+  "${STAGED_DIR}/config/icons/ohmydebn-pdf-sign.svg"=/usr/share/icons/hicolor/scalable/apps/ohmydebn-pdf-sign.svg \
+  "${STAGED_DIR}/config/applications/ohmydebn-pdf-sign.desktop"=/usr/share/applications/ohmydebn-pdf-sign.desktop \
   "${STAGED_DIR}/config/autostart/ohmydebn-theme-intro.desktop"=/etc/xdg/autostart/ohmydebn-theme-intro.desktop
 
 echo
