@@ -45,6 +45,10 @@ Uploads prompt for the rclone config password. To avoid the prompt, set `RCLONE_
 
 `build-package-ohmydebn-themes-omarchy.sh` packages the themes from the `omarchy/` checkout. `build-package-ohmydebn-themes-omarchy-intros.sh` takes its clips from a pinned commit of its own (`OMARCHY_TAG` and `OMARCHY_COMMIT` there), but ships only those whose background the themes package has, which it reads from the same checkout. Both stop unless the checkout is at `OMARCHY_THEMES_TAG` in `common.sh` with nothing under `themes/` changed. To move to a new Omarchy release: `git -C ~/git/omarchy fetch --tags`, check out the new tag there, update `OMARCHY_THEMES_TAG` (and the intros script's pin, if its clips change), and rebuild both packages.
 
+## Oh My Zsh
+
+`build-package-ohmydebn-ohmyzsh.sh` packages Oh My Zsh from one pinned commit (`OMZ_COMMIT`, with its date in `OMZ_DATE`) into `/usr/share/oh-my-zsh`. Oh My Zsh publishes no releases, so to update it pick a newer commit from its `master` branch, try it, change both values, and rebuild.
+
 ## Tests
 
 `tests/test-require-omarchy-checkout.sh` tests the Omarchy checkout check, and `tests/test-stage-checkout.sh` the uncommitted-changes check. Both use scratch git repositories and touch nothing else.
