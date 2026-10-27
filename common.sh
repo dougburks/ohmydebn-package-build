@@ -54,8 +54,23 @@ download_verified() {
 # other write removed, and set STAGED_DIR to the copy. Packages are built
 # from the copy because fpm keeps each file's mode, and a checkout made
 # under a desktop's umask 0002 is group-writable throughout.
+# The copy is of the working tree, so it stops unless the checkout (just
+# the given directory, for one inside a larger repo like ohmydebn/themes)
+# matches its commit: uncommitted edits and untracked scratch files would
+# otherwise ship in the package. Ignored files don't count, which lets
+# ohmydebn's build-time cache/ through.
 # Usage: stage_checkout <checkout dir> <name>
 stage_checkout() {
+  local status
+  if ! status=$(git -C "$1" status --porcelain --untracked-files=all -- .); then
+    echo "$1 isn't a git checkout" >&2
+    exit 1
+  fi
+  if [[ -n "${status}" ]]; then
+    echo "$1 has changes that aren't committed; commit or remove them first:" >&2
+    git -C "$1" status --short --untracked-files=all -- . >&2
+    exit 1
+  fi
   STAGED_DIR="${WORK_DIR}/checkout/$2"
   mkdir -p "${STAGED_DIR}"
   tar -C "$1" --exclude=./.git -cf - . | tar -C "${STAGED_DIR}" -xf -

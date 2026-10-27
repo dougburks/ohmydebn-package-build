@@ -37,6 +37,8 @@ The staging directory is not a scratch area: `upload-to-repo-stable.sh` includes
 Set `SKIP_UPLOAD=1` on either step to update the local repo without syncing to R2.
 After a `SKIP_UPLOAD=1` build, `upload-to-repo-testing.sh` publishes the testing repo by hand.
 
+The ohmydebn, ohmydebn-themes, ohmydebn-templates and ohmydebn-gtile builds package their checkout's working tree, so they stop if it has changes that aren't committed (ignored files don't count). Commit or remove them first.
+
 Uploads prompt for the rclone config password. To avoid the prompt, set `RCLONE_CONFIG_PASS` or `RCLONE_PASSWORD_COMMAND` in your shell.
 
 ## Omarchy themes
@@ -45,4 +47,4 @@ Uploads prompt for the rclone config password. To avoid the prompt, set `RCLONE_
 
 ## Tests
 
-`tests/test-require-omarchy-checkout.sh` tests that check. It uses scratch git repositories and touches nothing else.
+`tests/test-require-omarchy-checkout.sh` tests the Omarchy checkout check, and `tests/test-stage-checkout.sh` the uncommitted-changes check. Both use scratch git repositories and touch nothing else.
