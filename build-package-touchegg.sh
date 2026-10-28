@@ -3,6 +3,8 @@
 set -euo pipefail
 source "$(dirname "${BASH_SOURCE[0]}")/common.sh"
 
+# 2.0.17, not the newer 2.0.18 (May 2025): 2.0.18's release has only an
+# amd64 .deb, and OhMyDebn ships Touchegg for arm64 too.
 VERSION="2.0.17"
 NAME="touchegg"
 AUTHOR="JoseExposito"
