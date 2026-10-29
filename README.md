@@ -27,7 +27,7 @@ These scripts expect sibling directories next to this repo (normally in `~/git/`
 Paths are set in `common.sh` and derived from this repo's location, so the scripts can be run from any directory.
 `STAGING_DIR`, `TESTING_REPO` and `STABLE_REPO` can be overridden from the environment.
 
-The staging directory is not a scratch area: `upload-to-repo-stable.sh` includes every package from it, and some debs there (`mint-*`, `spice-vdagent`) are not produced by a script.
+The staging directory is not a scratch area: `upload-to-repo-stable.sh` includes every package from it, and some debs there (`mint-*`, `spice-vdagent`) are not produced by a script. It replaces each of those packages in stable as a whole, so it stops, before changing anything, if staging lacks an architecture stable has for a package, as it would after a build that failed partway.
 
 ## Workflow
 
@@ -51,4 +51,4 @@ Uploads prompt for the rclone config password. To avoid the prompt, set `RCLONE_
 
 ## Tests
 
-`tests/test-require-omarchy-checkout.sh` tests the Omarchy checkout check, and `tests/test-stage-checkout.sh` the uncommitted-changes check. Both use scratch git repositories and touch nothing else.
+`tests/test-require-omarchy-checkout.sh` tests the Omarchy checkout check, and `tests/test-stage-checkout.sh` the uncommitted-changes check. Both use scratch git repositories and touch nothing else. `tests/test-upload-stable-arches.sh` tests `upload-to-repo-stable.sh`'s architecture check against a scratch repo, with uploading off.

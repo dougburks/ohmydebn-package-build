@@ -33,6 +33,25 @@ if [ "${#DEBS[@]}" -eq 0 ]; then
   exit 1
 fi
 
+# Each package is replaced in stable as a whole (reprepro remove takes out
+# every architecture), so staging must hold every architecture stable has
+# for it. A build script writes each architecture to staging as it's
+# built, so one that stopped after amd64 left only that, and promoting it
+# would have taken arm64 out of stable. Checked for every package before
+# anything changes.
+MISSING=()
+for PACKAGE in $(printf '%s\n' "${!DEBS[@]}" | sort); do
+  while read -r ARCH; do
+    [ -n "${SEEN[${PACKAGE}_${ARCH}]:-}" ] || MISSING+=("${PACKAGE} (${ARCH})")
+  done < <(reprepro -b . --list-format '${architecture}\n' list trixie "${PACKAGE}" | sort -u)
+done
+if [ "${#MISSING[@]}" -gt 0 ]; then
+  echo "Stable has these, but staging doesn't, so promoting would remove them from stable:" >&2
+  printf '  %s\n' "${MISSING[@]}" >&2
+  echo "Build the missing architectures (or take the package out of staging) and run this again." >&2
+  exit 1
+fi
+
 for PACKAGE in $(printf '%s\n' "${!DEBS[@]}" | sort); do
   echo
   echo "Package: $PACKAGE"
