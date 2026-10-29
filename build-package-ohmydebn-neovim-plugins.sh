@@ -72,9 +72,8 @@ AMD64="${WORK_DIR}/home-amd64"
 ARM64="${WORK_DIR}/home-arm64"
 C="${AMD64}/config/nvim"
 mkdir -p "${AMD64}"/{config,data,state,cache} "${ARM64}"/{config,data,state,cache}
-# An explicit list: config/nvim also holds files nvim.sh used for older
-# setups (the LazyVim v14, treesitter and gitsigns pins), which this tested
-# set replaces.
+# An explicit list, so a file added to config/nvim ships only once it's
+# listed here. neovim.lua.tpl is left out: it's rendered per theme.
 for f in init.lua stylua.toml LICENSE lazyvim.json lazy-lock.json \
   lua/config/{lazy,options,keymaps,autocmds}.lua \
   lua/plugins/{all-themes,omarchy-theme-hotreload,snacks-animated-scrolling-off,snacks-dashboard-statusline,ohmydebn-offline}.lua \
