@@ -3,7 +3,7 @@
 set -euo pipefail
 source "$(dirname "${BASH_SOURCE[0]}")/common.sh"
 
-VERSION="0.1.3"
+VERSION="0.1.5"
 # Packaging revision: bump it when only this script's packaging changes
 # (so apt sees an upgrade), and reset it to 1 for a new upstream VERSION.
 REVISION="1"
