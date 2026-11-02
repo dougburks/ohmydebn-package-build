@@ -3,7 +3,7 @@
 set -euo pipefail
 source "$(dirname "${BASH_SOURCE[0]}")/common.sh"
 
-VERSION="18.13.3"
+VERSION="18.15.0"
 NAME="omp"
 AUTHOR="can1357"
 DESC="Coding agent with the IDE wired in (Stencil Labs' fork of Pi)"
@@ -26,10 +26,16 @@ declare -A GH_ARCH=(
 )
 
 wget -q "${URL}/releases/download/v${VERSION}/SHA256SUMS.txt"
-for DOC in LICENSE THIRD-PARTY-NOTICES.txt; do
-  wget -q "${URL}/releases/download/v${VERSION}/${DOC}"
-  grep " ${DOC}\$" SHA256SUMS.txt | sha256sum --check --quiet -
-done
+wget -q "${URL}/releases/download/v${VERSION}/LICENSE"
+grep " LICENSE\$" SHA256SUMS.txt | sha256sum --check --quiet -
+# From 18.14.0 the third-party notices are no longer a release asset (so
+# not in SHA256SUMS.txt): they're two files in the source, the CLI's and
+# the native addon's, which `omp --license` prints. Both are taken from
+# the release tag. Up to 18.13.3 the asset was the same file as the
+# source's at its tag, byte for byte.
+RAW="https://raw.githubusercontent.com/${REPO}/v${VERSION}/packages"
+wget -q -O THIRD-PARTY-NOTICES.txt "${RAW}/coding-agent/THIRD-PARTY-NOTICES.txt"
+wget -q -O THIRD-PARTY-NOTICES-natives.txt "${RAW}/natives/THIRD-PARTY-NOTICES.txt"
 
 for ARCHITECTURE in amd64 arm64; do
   BINARY="omp-linux-${GH_ARCH[${ARCHITECTURE}]}"
@@ -41,7 +47,7 @@ for ARCHITECTURE in amd64 arm64; do
 
   mkdir -p "pkgroot${INSTALL_DIR}" "pkgroot/usr/share/doc/${PACKAGE_NAME}"
   install -m 755 "${BINARY}" "pkgroot${INSTALL_DIR}/${NAME}"
-  install -m 644 LICENSE THIRD-PARTY-NOTICES.txt "pkgroot/usr/share/doc/${PACKAGE_NAME}/"
+  install -m 644 LICENSE THIRD-PARTY-NOTICES.txt THIRD-PARTY-NOTICES-natives.txt "pkgroot/usr/share/doc/${PACKAGE_NAME}/"
   chmod -R u=rwX,go=rX pkgroot
 
   # A foreign-architecture binary can't run here, so only the native one is
