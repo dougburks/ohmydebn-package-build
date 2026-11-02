@@ -12,8 +12,9 @@ VERSION="${VERSION/-rc/~rc}"
 # Bumped whenever what's shipped from the same Omarchy themes changes, so
 # apt upgrades existing installs (and removes files no longer shipped).
 # Back to 1 for each new Omarchy release. Under 4.0.0: 3, files no longer
-# group-writable; 4, one package for all the themes.
-REVISION="1"
+# group-writable; 4, one package for all the themes. Under 4.5.0~rc3: 2,
+# without Omarchy's original intro clips.
+REVISION="2"
 PACKAGE="ohmydebn-themes-omarchy"
 OMARCHY_THEMES_DIR="${GIT_ROOT}/omarchy/themes"
 
@@ -70,6 +71,10 @@ for dir in "${OMARCHY_THEMES_DIR}"/*/; do
   fi
   echo "Working on $THEME"
   cp -a "${OMARCHY_THEMES_DIR}/${THEME}" "${STAGE}/"
+  # Omarchy 4.5 keeps its intro clips in the themes (backgrounds/intros),
+  # as H.264 .mp4 files. They ship re-encoded, and checked for the
+  # wordmark, in ohmydebn-themes-omarchy-intros, so not here as well.
+  rm -rf "${STAGE}/${THEME}/backgrounds/intros"
   {
     find "${STAGE}/${THEME}/backgrounds" -type f -iname '*omarchy*' 2>/dev/null
     find "${STAGE}/${THEME}" -maxdepth 1 -type f \( -name unlock.png -o -name preview-unlock.png \)
