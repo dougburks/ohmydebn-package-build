@@ -13,8 +13,8 @@ VERSION="${VERSION/-rc/~rc}"
 # apt upgrades existing installs (and removes files no longer shipped).
 # Back to 1 for each new Omarchy release. Under 4.0.0: 3, files no longer
 # group-writable; 4, one package for all the themes. Under 4.5.0~rc3: 2,
-# without Omarchy's original intro clips.
-REVISION="2"
+# without Omarchy's original intro clips; 3, without Tokyo Night's Liftoff.
+REVISION="3"
 PACKAGE="ohmydebn-themes-omarchy"
 OMARCHY_THEMES_DIR="${GIT_ROOT}/omarchy/themes"
 
@@ -45,11 +45,15 @@ OLD_PACKAGES=(
 # added to the list - check the "not shipped" lines this prints.
 EXCLUDED_BACKGROUNDS=(
   "lumon/backgrounds/02-opinions-equally.webp" # "OMARCHY - Enjoy Each Opinion Equally"
+  # A recolor of one of Starship's SpaceX photographs (see below).
+  "tokyo-night/backgrounds/0-liftoff.webp"
 )
 # Themes not shipped at all. Starship's backgrounds are SpaceX launch
 # photographs that, as Omarchy's commit adding the theme says, "remain
 # copyright SpaceX and are not covered by MIT", so OhMyDebn can't
-# redistribute them.
+# redistribute them. The theme they come from (erikrjohansson/omarchy-
+# starship-to-orbit-theme) took them from SpaceX's account on X, and its
+# notices say "SpaceX retains all rights to the original photographs."
 EXCLUDED_THEMES=(starship)
 STAGE="${WORK_DIR}/themes"
 
