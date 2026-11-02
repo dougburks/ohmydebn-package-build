@@ -4,11 +4,11 @@ set -euo pipefail
 source "$(dirname "${BASH_SOURCE[0]}")/common.sh"
 
 # The Omarchy release the themes come from (OMARCHY_THEMES_TAG, in
-# common.sh), checked against the omarchy checkout below. A release
-# candidate's -rc becomes ~rc, so 4.5.0~rc3 sorts below the final 4.5.0
+# common.sh), checked against the omarchy checkout below. A pre-release's
+# - becomes ~ (4.5.0-rc3 -> 4.5.0~rc3), so it sorts below the final 4.5.0
 # (with a -, it would sort above it).
 VERSION="${OMARCHY_THEMES_TAG#v}"
-VERSION="${VERSION/-rc/~rc}"
+VERSION="${VERSION/-/\~}"
 # Bumped whenever what's shipped from the same Omarchy themes changes, so
 # apt upgrades existing installs (and removes files no longer shipped).
 # Back to 1 for each new Omarchy release. Under 4.0.0: 3, files no longer
@@ -36,25 +36,10 @@ OLD_PACKAGES=(
   ohmydebn-themes-white
 )
 
-# Images that say "Omarchy", which would confuse OhMyDebn users, aren't
-# shipped: the backgrounds showing the OMARCHY wordmark (all named
-# *omarchy*, plus the ones listed below, which aren't) and the lock-screen
-# images (unlock.png, preview-unlock.png), which OhMyDebn never displays and
-# which nearly all show it. Each theme keeps at least one background. A new
-# Omarchy theme's wordmark background that isn't named *omarchy* has to be
-# added to the list - check the "not shipped" lines this prints.
-EXCLUDED_BACKGROUNDS=(
-  "lumon/backgrounds/02-opinions-equally.webp" # "OMARCHY - Enjoy Each Opinion Equally"
-  # A recolor of one of Starship's SpaceX photographs (see below).
-  "tokyo-night/backgrounds/0-liftoff.webp"
-)
-# Themes not shipped at all. Starship's backgrounds are SpaceX launch
-# photographs that, as Omarchy's commit adding the theme says, "remain
-# copyright SpaceX and are not covered by MIT", so OhMyDebn can't
-# redistribute them. The theme they come from (erikrjohansson/omarchy-
-# starship-to-orbit-theme) took them from SpaceX's account on X, and its
-# notices say "SpaceX retains all rights to the original photographs."
-EXCLUDED_THEMES=(starship)
+# What isn't shipped - backgrounds showing the OMARCHY wordmark, the
+# lock-screen images, and the images OhMyDebn can't redistribute - is
+# described with EXCLUDED_BACKGROUNDS and EXCLUDED_THEMES in common.sh,
+# which the intros package applies too.
 STAGE="${WORK_DIR}/themes"
 
 require_omarchy_checkout "${GIT_ROOT}/omarchy"

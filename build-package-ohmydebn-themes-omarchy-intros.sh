@@ -22,6 +22,12 @@ source "$(dirname "${BASH_SOURCE[0]}")/common.sh"
 # the separate H.264 decoder.
 OMARCHY_TAG="v4.5.0-rc3"
 OMARCHY_COMMIT="8d19ad75ace59af8b6ded52f8b2bec1b15adda7c"
+# The themes package is built from OMARCHY_THEMES_TAG (common.sh), and the
+# clips are named after its backgrounds, so both must be the same release.
+if [[ "${OMARCHY_TAG}" != "${OMARCHY_THEMES_TAG}" ]]; then
+  echo "OMARCHY_TAG (${OMARCHY_TAG}) isn't OMARCHY_THEMES_TAG in common.sh (${OMARCHY_THEMES_TAG})" >&2
+  exit 1
+fi
 # The Omarchy version the clips come from, with ~ so 4.5.0~rc3 sorts below
 # a later 4.5.0.
 VERSION="4.5.0~rc3"
@@ -32,8 +38,8 @@ VERSION="4.5.0~rc3"
 REVISION="1"
 PACKAGE="ohmydebn-themes-omarchy-intros"
 # The backgrounds ohmydebn-themes-omarchy is built from: a clip is shipped
-# only if the background it belongs to is. Checked to be at the release
-# that package is built from, as it is.
+# only if its background is in the checkout (at the release that package is
+# built from) and isn't one the themes package leaves out.
 OMARCHY_THEMES_DIR="${GIT_ROOT}/omarchy/themes"
 require_omarchy_checkout "${GIT_ROOT}/omarchy"
 # Intros showing the OMARCHY wordmark, which would confuse OhMyDebn users.
@@ -67,6 +73,12 @@ for clip in */backgrounds/intros/*.mp4; do
   excluded=false
   for e in "${EXCLUDED_INTROS[@]}"; do
     [[ "${clip}" == "${e}" ]] && excluded=true
+  done
+  # A clip for a background, or a theme, the themes package leaves out
+  # (EXCLUDED_BACKGROUNDS and EXCLUDED_THEMES in common.sh) is left out too.
+  [[ " ${EXCLUDED_THEMES[*]} " == *" ${theme} "* ]] && excluded=true
+  for e in "${EXCLUDED_BACKGROUNDS[@]}"; do
+    [[ "${e%.*}" == "${theme}/backgrounds/${stem}" ]] && excluded=true
   done
   if [[ "${excluded}" == true || "${stem,,}" == *omarchy* ]]; then
     echo "  not shipped: ${clip}"

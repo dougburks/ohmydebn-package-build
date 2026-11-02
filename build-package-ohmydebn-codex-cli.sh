@@ -19,13 +19,13 @@ enter_work_dir
 # Each release ships a bare codex-<triple>.tar.gz (single binary) and a
 # codex-package-<triple>.tar.gz. We want the latter: it's the layout the
 # official standalone installer (chatgpt.com/codex/install.sh) unpacks,
-# with bin/codex, bin/codex-code-mode-host, codex-path/rg and
-# codex-resources/{bwrap,voice/}. Codex locates those helpers relative to its
-# own resolved executable path, so the directory must be installed intact
-# (as with Pi, under /usr/lib/${PACKAGE_NAME}/) rather than as a lone
-# binary in /usr/bin like OpenCode. Shipping the bundled bwrap also means
-# no Depends on Debian's bubblewrap - Codex only falls back to a system
-# bwrap on PATH when the bundled one is missing.
+# with bin/codex, bin/codex-code-mode-host, bin/codex-exec-server,
+# codex-path/rg and codex-resources/{bwrap,voice/}. Codex locates those
+# helpers relative to its own resolved executable path, so the directory
+# must be installed intact (as with Pi, under /usr/lib/${PACKAGE_NAME}/)
+# rather than as a lone binary in /usr/bin like OpenCode. Shipping the
+# bundled bwrap also means no Depends on Debian's bubblewrap - Codex only
+# falls back to a system bwrap on PATH when the bundled one is missing.
 declare -A GH_ARCH=(
   [amd64]="x86_64"
   [arm64]="aarch64"

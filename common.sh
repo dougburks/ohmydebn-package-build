@@ -86,6 +86,31 @@ stage_checkout() {
 # checkout and change this.
 OMARCHY_THEMES_TAG="v4.5.0-rc3"
 
+# Images that say "Omarchy", which would confuse OhMyDebn users, aren't
+# shipped: the backgrounds showing the OMARCHY wordmark (all named
+# *omarchy*, plus the ones listed below, which aren't) and the lock-screen
+# images (unlock.png, preview-unlock.png), which OhMyDebn never displays and
+# which nearly all show it. Each theme keeps at least one background. A new
+# Omarchy theme's wordmark background that isn't named *omarchy* has to be
+# added to the list - check the "not shipped" lines the themes script
+# prints. Both Omarchy packages apply these lists: the themes script leaves
+# the images out, and the intros script leaves out the clip of any
+# background (or theme) left out here.
+# shellcheck disable=SC2034 # used by the scripts that source this
+EXCLUDED_BACKGROUNDS=(
+  "lumon/backgrounds/02-opinions-equally.webp" # "OMARCHY - Enjoy Each Opinion Equally"
+  # A recolor of one of Starship's SpaceX photographs (see below).
+  "tokyo-night/backgrounds/0-liftoff.webp"
+)
+# Themes not shipped at all. Starship's backgrounds are SpaceX launch
+# photographs that, as Omarchy's commit adding the theme says, "remain
+# copyright SpaceX and are not covered by MIT", so OhMyDebn can't
+# redistribute them. The theme they come from (erikrjohansson/omarchy-
+# starship-to-orbit-theme) took them from SpaceX's account on X, and its
+# notices say "SpaceX retains all rights to the original photographs."
+# shellcheck disable=SC2034 # used by the scripts that source this
+EXCLUDED_THEMES=(starship)
+
 # Stop unless the omarchy checkout is at OMARCHY_THEMES_TAG, with nothing in
 # themes/ changed or added since.
 # Usage: require_omarchy_checkout <omarchy checkout dir>
@@ -117,6 +142,15 @@ enter_work_dir() {
 include_testing() {
   local pkg="$1" deb
   shift
+  # Every file checked first: removing the old version and then failing on
+  # a missing one (an architecture's build that didn't happen) left the
+  # package out of testing altogether.
+  for deb in "$@"; do
+    if [[ ! -f "${deb}" ]]; then
+      echo "include_testing: ${deb} not found; ${pkg} left as it is in testing" >&2
+      return 1
+    fi
+  done
   reprepro -b "${TESTING_REPO}" remove trixie "${pkg}"
   for deb in "$@"; do
     reprepro -b "${TESTING_REPO}" includedeb trixie "${deb}"
