@@ -84,7 +84,7 @@ stage_checkout() {
 # intros package checks it too: it ships a clip only for a background this
 # release has. To move to a new release, check out its tag in the omarchy
 # checkout and change this.
-OMARCHY_THEMES_TAG="v4.0.0"
+OMARCHY_THEMES_TAG="v4.5.0-rc3"
 
 # Stop unless the omarchy checkout is at OMARCHY_THEMES_TAG, with nothing in
 # themes/ changed or added since.

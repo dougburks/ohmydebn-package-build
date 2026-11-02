@@ -11,24 +11,25 @@ source "$(dirname "${BASH_SOURCE[0]}")/common.sh"
 # without this package the themes still have intros). Packaged
 # separately from ohmydebn-themes-omarchy because it's the one part worth
 # leaving out (install/packaging/theme-intros.sh skips it on a Raspberry
-# Pi, where intros don't play), and because ohmydebn-themes-omarchy still
-# comes from Omarchy 4.0.0: the clips are named after backgrounds that
-# 4.0.0 already ships, so they work with it as they are.
+# Pi, where intros don't play). Each clip is named after its background,
+# so this package needs the ohmydebn-themes-omarchy built from the same
+# Omarchy release.
 #
 # The clips come from one commit of Omarchy's repository (git checks every
 # object against its hash, so the commit pins the content), and are
 # re-encoded to VP9 at no more than 1440 lines: about a quarter of the
 # original download, and played by GStreamer's standard plugins rather than
 # the separate H.264 decoder.
-OMARCHY_TAG="v4.5.0-rc1"
-OMARCHY_COMMIT="03ff1eff3812933f7088484533784d2f63eaf19a"
-# The Omarchy version the clips come from, with ~ so 4.5.0~rc1 sorts below
+OMARCHY_TAG="v4.5.0-rc3"
+OMARCHY_COMMIT="8d19ad75ace59af8b6ded52f8b2bec1b15adda7c"
+# The Omarchy version the clips come from, with ~ so 4.5.0~rc3 sorts below
 # a later 4.5.0.
-VERSION="4.5.0~rc1"
+VERSION="4.5.0~rc3"
 # Bumped whenever the same clips are rebuilt with changes (the encoding,
-# the list below), so apt upgrades existing installs. 2: the login entry
-# moved to the ohmydebn package, now that every background has an intro.
-REVISION="2"
+# the list below), so apt upgrades existing installs. Back to 1 for each
+# new Omarchy release. Under 4.5.0~rc1: 2, the login entry moved to the
+# ohmydebn package, now that every background has an intro.
+REVISION="1"
 PACKAGE="ohmydebn-themes-omarchy-intros"
 # The backgrounds ohmydebn-themes-omarchy is built from: a clip is shipped
 # only if the background it belongs to is. Checked to be at the release
@@ -36,7 +37,8 @@ PACKAGE="ohmydebn-themes-omarchy-intros"
 OMARCHY_THEMES_DIR="${GIT_ROOT}/omarchy/themes"
 require_omarchy_checkout "${GIT_ROOT}/omarchy"
 # Intros showing the OMARCHY wordmark, which would confuse OhMyDebn users.
-# Every clip was checked frame by frame on 2026-10-20; only this one does,
+# Every clip was checked frame by frame on 2026-10-20 (rc3 changed none,
+# only dropping Osaka Jade's); only this one does,
 # and its background isn't shipped either (EXCLUDED_BACKGROUNDS in
 # build-package-ohmydebn-themes-omarchy.sh). A new or changed clip needs
 # the same check.
@@ -99,7 +101,7 @@ fpm -s dir \
   --description "Theme intros from Omarchy packaged for OhMyDebn" \
   --url "https://ohmydebn.org" \
   --depends "ohmydebn (>= 4.13.0)" \
-  --depends ohmydebn-themes-omarchy \
+  --depends "ohmydebn-themes-omarchy (>= ${VERSION})" \
   --depends python3-gi \
   --depends gir1.2-gtk-3.0 \
   --depends gir1.2-gstreamer-1.0 \

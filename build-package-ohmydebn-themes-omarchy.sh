@@ -4,12 +4,16 @@ set -euo pipefail
 source "$(dirname "${BASH_SOURCE[0]}")/common.sh"
 
 # The Omarchy release the themes come from (OMARCHY_THEMES_TAG, in
-# common.sh), checked against the omarchy checkout below.
+# common.sh), checked against the omarchy checkout below. A release
+# candidate's -rc becomes ~rc, so 4.5.0~rc3 sorts below the final 4.5.0
+# (with a -, it would sort above it).
 VERSION="${OMARCHY_THEMES_TAG#v}"
+VERSION="${VERSION/-rc/~rc}"
 # Bumped whenever what's shipped from the same Omarchy themes changes, so
 # apt upgrades existing installs (and removes files no longer shipped).
-# 3: files no longer group-writable. 4: one package for all the themes.
-REVISION="4"
+# Back to 1 for each new Omarchy release. Under 4.0.0: 3, files no longer
+# group-writable; 4, one package for all the themes.
+REVISION="1"
 PACKAGE="ohmydebn-themes-omarchy"
 OMARCHY_THEMES_DIR="${GIT_ROOT}/omarchy/themes"
 
@@ -39,8 +43,13 @@ OLD_PACKAGES=(
 # Omarchy theme's wordmark background that isn't named *omarchy* has to be
 # added to the list - check the "not shipped" lines this prints.
 EXCLUDED_BACKGROUNDS=(
-  "lumon/backgrounds/02-opinions-equally.jpg" # "OMARCHY - Enjoy Each Opinion Equally"
+  "lumon/backgrounds/02-opinions-equally.webp" # "OMARCHY - Enjoy Each Opinion Equally"
 )
+# Themes not shipped at all. Starship's backgrounds are SpaceX launch
+# photographs that, as Omarchy's commit adding the theme says, "remain
+# copyright SpaceX and are not covered by MIT", so OhMyDebn can't
+# redistribute them.
+EXCLUDED_THEMES=(starship)
 STAGE="${WORK_DIR}/themes"
 
 require_omarchy_checkout "${GIT_ROOT}/omarchy"
@@ -55,6 +64,10 @@ done
 mkdir -p "${STAGE}"
 for dir in "${OMARCHY_THEMES_DIR}"/*/; do
   THEME="$(basename "$dir")"
+  if [[ " ${EXCLUDED_THEMES[*]} " == *" ${THEME} "* ]]; then
+    echo "  not shipped: ${THEME} (the whole theme)"
+    continue
+  fi
   echo "Working on $THEME"
   cp -a "${OMARCHY_THEMES_DIR}/${THEME}" "${STAGE}/"
   {
