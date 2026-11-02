@@ -80,7 +80,7 @@ fpm -s dir \
   --depends mint-y-icons \
   --depends ohmydebn-aether \
   --depends "ohmydebn-caskaydiamononerdfont (>= 3.5.1)" \
-  --depends ohmydebn-gtile \
+  --depends "ohmydebn-gtile (>= 3.0.1-20261102)" \
   --depends ohmydebn-templates \
   --depends ohmydebn-themes \
   --depends "ohmydebn-themes-omarchy (>= 4.0.0-4)" \
