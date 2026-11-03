@@ -4,6 +4,10 @@ set -euo pipefail
 source "$(dirname "${BASH_SOURCE[0]}")/common.sh"
 
 VERSION="0.166.0"
+# Bumped whenever the same version is rebuilt with changes, so apt
+# upgrades existing installs. 1: /etc/codex/config.toml, which turns off
+# Codex's own update check.
+REVISION="1"
 NAME="codex"
 AUTHOR="openai"
 DESC="Lightweight coding agent that runs in your terminal"
@@ -42,6 +46,7 @@ for ARCHITECTURE in amd64 arm64; do
   sha256sum --check --ignore-missing codex-package_SHA256SUMS
   mkdir -p ${NAME}
   tar zxf ${TARBALL} -C ${NAME}
+  install -m 0644 "${BUILD_DIR}/codex-config.toml" codex-config.toml
 
   echo
   echo "Building ${ARCHITECTURE} package"
@@ -49,22 +54,24 @@ for ARCHITECTURE in amd64 arm64; do
     --maintainer "Doug Burks <https://github.com/dougburks/ohmydebn>" \
     -n "${PACKAGE_NAME}" \
     -v "${VERSION}" \
+    --iteration "${REVISION}" \
     --package "${STAGING_DIR}/" \
     --architecture ${ARCHITECTURE} \
     --description "${DESC}" \
     --url "${URL}" \
     --license "Apache-2.0" \
-    ${NAME}/=/usr/lib/${PACKAGE_NAME}/
+    ${NAME}/=/usr/lib/${PACKAGE_NAME}/ \
+    codex-config.toml=/etc/codex/config.toml
 
   echo
   echo "Removing ${ARCHITECTURE} temp files"
-  rm -rf ${NAME} ${TARBALL} codex-package_SHA256SUMS
+  rm -rf ${NAME} ${TARBALL} codex-package_SHA256SUMS codex-config.toml
 done
 
 echo
 echo "Including both packages in testing repo"
 include_testing ${PACKAGE_NAME} \
-  "${STAGING_DIR}/${PACKAGE_NAME}_${VERSION}_amd64.deb" \
-  "${STAGING_DIR}/${PACKAGE_NAME}_${VERSION}_arm64.deb"
+  "${STAGING_DIR}/${PACKAGE_NAME}_${VERSION}-${REVISION}_amd64.deb" \
+  "${STAGING_DIR}/${PACKAGE_NAME}_${VERSION}-${REVISION}_arm64.deb"
 
 upload_testing

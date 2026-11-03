@@ -1,0 +1,7 @@
+# Codex's system-wide settings, from the ohmydebn-codex-cli package. Your
+# own ~/.codex/config.toml overrides anything here.
+
+# OhMyDebn updates Codex through apt (ohmydebn-update), so Codex doesn't
+# need to check for new versions itself - its own updater would replace
+# the package's copy with the standalone installer (curl | sh).
+check_for_update_on_startup = false
