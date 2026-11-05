@@ -23,7 +23,9 @@ mkdir -p "${STAGING_DIR}"
 
 # Throwaway directory, removed when the script exits (even on failure).
 # TMPDIR points into it because fpm leaves empty studtmp-* dirs behind.
-WORK_DIR="$(mktemp -d)"
+# In /var/tmp, on disk, rather than /tmp: /tmp can be a RAM disk, and an
+# unpacked app (T3 Code's AppImage) plus fpm's copy of it overflowed one.
+WORK_DIR="$(mktemp -d -p /var/tmp)"
 trap 'rm -rf "${WORK_DIR}"' EXIT
 export TMPDIR="${WORK_DIR}"
 
