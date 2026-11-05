@@ -3,7 +3,7 @@
 set -euo pipefail
 source "$(dirname "${BASH_SOURCE[0]}")/common.sh"
 
-VERSION="2.3.0"
+VERSION="2.4.0"
 # Package revision, for a rebuild of the same cliamp version. Reset it to 1
 # for a new upstream VERSION. 1: rebuilt without group write on its files
 # (built before common.sh's umask, they were group-writable once installed).

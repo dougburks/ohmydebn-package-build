@@ -20,8 +20,8 @@ source "$(dirname "${BASH_SOURCE[0]}")/common.sh"
 # re-encoded to VP9 at no more than 1440 lines: about a quarter of the
 # original download, and played by GStreamer's standard plugins rather than
 # the separate H.264 decoder.
-OMARCHY_TAG="v4.5.0-rc3"
-OMARCHY_COMMIT="8d19ad75ace59af8b6ded52f8b2bec1b15adda7c"
+OMARCHY_TAG="v4.5.0"
+OMARCHY_COMMIT="ac2690cd7be4f47e4a255f5e2e78d904d436b068"
 # The themes package is built from OMARCHY_THEMES_TAG (common.sh), and the
 # clips are named after its backgrounds, so both must be the same release.
 if [[ "${OMARCHY_TAG}" != "${OMARCHY_THEMES_TAG}" ]]; then
@@ -30,7 +30,7 @@ if [[ "${OMARCHY_TAG}" != "${OMARCHY_THEMES_TAG}" ]]; then
 fi
 # The Omarchy version the clips come from, with ~ so 4.5.0~rc3 sorts below
 # a later 4.5.0.
-VERSION="4.5.0~rc3"
+VERSION="4.5.0"
 # Bumped whenever the same clips are rebuilt with changes (the encoding,
 # the list below), so apt upgrades existing installs. Back to 1 for each
 # new Omarchy release. Under 4.5.0~rc1: 2, the login entry moved to the
@@ -44,9 +44,9 @@ OMARCHY_THEMES_DIR="${GIT_ROOT}/omarchy/themes"
 require_omarchy_checkout "${GIT_ROOT}/omarchy"
 # Intros showing the OMARCHY wordmark, which would confuse OhMyDebn users.
 # Every clip was checked frame by frame on 2026-10-20 (rc3 changed none,
-# only dropping Osaka Jade's); only this one does,
+# only dropping Osaka Jade's, and 4.5.0 none at all); only this one does,
 # and its background isn't shipped either (EXCLUDED_BACKGROUNDS in
-# build-package-ohmydebn-themes-omarchy.sh). A new or changed clip needs
+# common.sh). A new or changed clip needs
 # the same check.
 EXCLUDED_INTROS=(
   "lumon/backgrounds/intros/02-opinions-equally.mp4" # "OMARCHY - Enjoy Each Opinion Equally"

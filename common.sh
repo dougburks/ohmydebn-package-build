@@ -84,7 +84,7 @@ stage_checkout() {
 # intros package checks it too: it ships a clip only for a background this
 # release has. To move to a new release, check out its tag in the omarchy
 # checkout and change this.
-OMARCHY_THEMES_TAG="v4.5.0-rc3"
+OMARCHY_THEMES_TAG="v4.5.0"
 
 # Images that say "Omarchy", which would confuse OhMyDebn users, aren't
 # shipped: the backgrounds showing the OMARCHY wordmark (all named

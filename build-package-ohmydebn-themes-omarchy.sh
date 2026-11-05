@@ -14,7 +14,7 @@ VERSION="${VERSION/-/\~}"
 # Back to 1 for each new Omarchy release. Under 4.0.0: 3, files no longer
 # group-writable; 4, one package for all the themes. Under 4.5.0~rc3: 2,
 # without Omarchy's original intro clips; 3, without Tokyo Night's Liftoff.
-REVISION="3"
+REVISION="1"
 PACKAGE="ohmydebn-themes-omarchy"
 OMARCHY_THEMES_DIR="${GIT_ROOT}/omarchy/themes"
 
