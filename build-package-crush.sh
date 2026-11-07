@@ -7,7 +7,7 @@ source "$(dirname "${BASH_SOURCE[0]}")/common.sh"
 # them. Packaged here rather than installed from Charm's apt repository so
 # users get a version that went through testing, and no third-party repo,
 # key or pin.
-VERSION="0.99.0"
+VERSION="0.100.0"
 PACKAGE_NAME="crush"
 REPO="charmbracelet/crush"
 

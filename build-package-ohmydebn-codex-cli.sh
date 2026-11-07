@@ -3,7 +3,7 @@
 set -euo pipefail
 source "$(dirname "${BASH_SOURCE[0]}")/common.sh"
 
-VERSION="0.166.0"
+VERSION="0.167.0"
 # Bumped whenever the same version is rebuilt with changes, so apt
 # upgrades existing installs. 1: /etc/codex/config.toml, which turns off
 # Codex's own update check.

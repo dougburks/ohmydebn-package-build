@@ -3,7 +3,7 @@
 set -euo pipefail
 source "$(dirname "${BASH_SOURCE[0]}")/common.sh"
 
-VERSION="18.16.0"
+VERSION="18.18.0"
 NAME="omp"
 AUTHOR="can1357"
 DESC="Coding agent with the IDE wired in (Stencil Labs' fork of Pi)"
