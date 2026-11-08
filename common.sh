@@ -32,9 +32,18 @@ export TMPDIR="${WORK_DIR}"
 # Every build script's downloads go through this. A stalled connection
 # otherwise waits out wget's 15-minute default read timeout (with no connect
 # timeout at all) in silence, since the scripts use -q; time out and retry
-# instead.
+# instead. When it still fails, -q means wget says nothing either, and set -e
+# then ends the build with no word of why, so name the download that failed.
 wget() {
-  command wget --timeout=30 --tries=3 "$@"
+  local status=0 arg url=""
+  command wget --timeout=30 --tries=3 "$@" || status=$?
+  if [ "${status}" -ne 0 ]; then
+    for arg in "$@"; do
+      [[ "${arg}" == http://* || "${arg}" == https://* ]] && url="${arg}"
+    done
+    echo "Download failed (wget exit ${status}): ${url:-$*}" >&2
+  fi
+  return "${status}"
 }
 
 # Download a GitHub release asset into the current directory and check it

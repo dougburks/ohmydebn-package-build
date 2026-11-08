@@ -51,4 +51,4 @@ Uploads prompt for the rclone config password. To avoid the prompt, set `RCLONE_
 
 ## Tests
 
-`tests/test-require-omarchy-checkout.sh` tests the Omarchy checkout check, and `tests/test-stage-checkout.sh` the uncommitted-changes check. Both use scratch git repositories and touch nothing else. `tests/test-upload-stable-arches.sh` tests `upload-to-repo-stable.sh`'s architecture check against a scratch repo, with uploading off.
+`tests/test-require-omarchy-checkout.sh` tests the Omarchy checkout check, and `tests/test-stage-checkout.sh` the uncommitted-changes check. Both use scratch git repositories and touch nothing else. `tests/test-upload-stable-arches.sh` tests `upload-to-repo-stable.sh`'s architecture check against a scratch repo, with uploading off. `tests/test-wget.sh` tests that a failed download names its URL, with a stand-in wget.
