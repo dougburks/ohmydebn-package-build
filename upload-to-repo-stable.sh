@@ -81,9 +81,10 @@ if [ "${SKIP_UPLOAD}" = "1" ]; then
   echo "SKIP_UPLOAD=1, not syncing to R2"
   exit 0
 fi
+rclone_config_pass
 # conf/ and db/ are reprepro's own working files (its configuration and
 # package database), not part of the apt repo - they used to be published
-# along with it.
+# along with it. They go to the private backup bucket instead, below.
 rclone sync . "r2:ohmydebn-packages" \
   --exclude "README.md" \
   --exclude "conf/**" \
@@ -92,6 +93,7 @@ rclone sync . "r2:ohmydebn-packages" \
   --s3-no-head \
   --no-update-modtime \
   --ignore-checksum
+backup_reprepro . stable
 
 echo
 echo "If pushing modified packages, you will need to manually purge Cloudflare cache!"

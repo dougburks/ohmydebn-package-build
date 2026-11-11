@@ -168,6 +168,35 @@ include_testing() {
   done
 }
 
+# rclone's config is encrypted, and every rclone run asked for its password:
+# twice per upload once the backup below was added. Asked here once and
+# handed to rclone the way it documents, in RCLONE_CONFIG_PASS. Not asked
+# when the shell already gives rclone the password (see README.md).
+rclone_config_pass() {
+  [ -n "${RCLONE_CONFIG_PASS:-}${RCLONE_PASSWORD_COMMAND:-}" ] && return
+  grep -q '^# Encrypted rclone configuration File' "$(rclone config file | tail -1)" 2>/dev/null || return 0
+  read -rsp "Enter rclone configuration password: " RCLONE_CONFIG_PASS
+  echo
+  export RCLONE_CONFIG_PASS
+}
+
+# Copy a repo's conf/ and db/ (reprepro's configuration and package
+# database) to the private backup bucket, in a folder of their own per
+# upload. They're kept out of the public buckets, and without them the
+# repo could only be rebuilt by re-including every deb by hand. Dated
+# copies rather than one synced copy, so a damaged database can't
+# overwrite the last good one; each is well under 1 MB.
+# Usage: backup_reprepro <repo dir> <name in the bucket>
+REPREPRO_BACKUP_BUCKET=ohmydebn-reprepro-backup
+backup_reprepro() {
+  rclone copy "$1" "r2:${REPREPRO_BACKUP_BUCKET}/$2/$(date -u +%Y%m%dT%H%M%SZ)" \
+    --include "/conf/**" \
+    --include "/db/**" \
+    --s3-no-check-bucket \
+    --s3-no-head \
+    --no-update-modtime
+}
+
 # Sync the testing repo to R2 unless SKIP_UPLOAD=1.
 # Called once at the end of each build-package-*.sh.
 upload_testing() {

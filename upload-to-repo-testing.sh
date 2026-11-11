@@ -6,9 +6,10 @@ source "$(dirname "${BASH_SOURCE[0]}")/common.sh"
 cd "${TESTING_REPO}"
 
 # Deploy to Cloudflare R2
+rclone_config_pass
 # conf/ and db/ are reprepro's own working files (its configuration and
 # package database), not part of the apt repo - they used to be published
-# along with it.
+# along with it. They go to the private backup bucket instead, below.
 rclone sync . "r2:ohmydebn-packages-testing" \
   --exclude "README.md" \
   --exclude "conf/**" \
@@ -17,3 +18,4 @@ rclone sync . "r2:ohmydebn-packages-testing" \
   --s3-no-head \
   --no-update-modtime \
   --ignore-checksum
+backup_reprepro . testing

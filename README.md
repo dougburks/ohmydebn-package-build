@@ -39,7 +39,13 @@ After a `SKIP_UPLOAD=1` build, `upload-to-repo-testing.sh` publishes the testing
 
 The ohmydebn, ohmydebn-themes, ohmydebn-templates and ohmydebn-gtile builds package their checkout's working tree, so they stop if it has changes that aren't committed (ignored files don't count). Commit or remove them first.
 
-Uploads prompt for the rclone config password. To avoid the prompt, set `RCLONE_CONFIG_PASS` or `RCLONE_PASSWORD_COMMAND` in your shell.
+Uploads prompt once for the rclone config password. To avoid the prompt, set `RCLONE_CONFIG_PASS` or `RCLONE_PASSWORD_COMMAND` in your shell.
+
+## Backups of the repos' reprepro files
+
+Each upload also copies that repo's `conf/` and `db/` (reprepro's configuration and package database, which the public buckets leave out) to the private R2 bucket `ohmydebn-reprepro-backup`, under `stable/` or `testing/` in a folder named for the upload's time (UTC). Without them, a lost repo could only be rebuilt by including every deb again by hand. To restore one, pick a folder with `rclone lsd r2:ohmydebn-reprepro-backup/stable` and copy it back into the repo with reprepro not running: `rclone copy r2:ohmydebn-reprepro-backup/stable/<folder> ~/git/ohmydebn-packages`. The published `dists/` and `pool/` come back from the public bucket the same way.
+
+The repo signing key is never put in R2, this bucket included: anyone with access to the Cloudflare account could then sign packages. Keep its backup offline.
 
 ## Omarchy themes
 
@@ -51,4 +57,4 @@ Uploads prompt for the rclone config password. To avoid the prompt, set `RCLONE_
 
 ## Tests
 
-`tests/test-require-omarchy-checkout.sh` tests the Omarchy checkout check, and `tests/test-stage-checkout.sh` the uncommitted-changes check. Both use scratch git repositories and touch nothing else. `tests/test-upload-stable-arches.sh` tests `upload-to-repo-stable.sh`'s architecture check against a scratch repo, with uploading off. `tests/test-wget.sh` tests that a failed download names its URL, with a stand-in wget.
+`tests/test-require-omarchy-checkout.sh` tests the Omarchy checkout check, and `tests/test-stage-checkout.sh` the uncommitted-changes check. Both use scratch git repositories and touch nothing else. `tests/test-upload-stable-arches.sh` tests `upload-to-repo-stable.sh`'s architecture check against a scratch repo, with uploading off. `tests/test-wget.sh` tests that a failed download names its URL, with a stand-in wget. `tests/test-reprepro-backup.sh` tests that an upload backs up `conf/` and `db/` to the private bucket and asks the rclone password once, with a stand-in rclone.
