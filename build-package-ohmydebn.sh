@@ -72,6 +72,7 @@ fpm -s dir \
   --exclude usr/share/ohmydebn/AGENTS.md \
   --exclude usr/share/ohmydebn/CLAUDE.md \
   --exclude usr/share/ohmydebn/CONTRIBUTING.md \
+  --exclude usr/share/ohmydebn/TODO.md \
   --depends curl \
   --depends git \
   --depends mint-cursor-themes \
