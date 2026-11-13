@@ -97,7 +97,9 @@ fpm -s dir \
   "${STAGED_DIR}/config/icons/ohmydebn-menu-outline-symbolic.svg"=/usr/share/icons/hicolor/scalable/apps/ohmydebn-menu-outline-symbolic.svg \
   "${STAGED_DIR}/config/icons/ohmydebn.svg"=/usr/share/icons/hicolor/scalable/apps/ohmydebn.svg \
   "${STAGED_DIR}/config/icons/ohmydebn-pdf-sign.svg"=/usr/share/icons/hicolor/scalable/apps/ohmydebn-pdf-sign.svg \
+  "${STAGED_DIR}/config/icons/ohmydebn-ai-symbolic.svg"=/usr/share/icons/hicolor/scalable/apps/ohmydebn-ai-symbolic.svg \
   "${STAGED_DIR}/config/applications/ohmydebn-pdf-sign.desktop"=/usr/share/applications/ohmydebn-pdf-sign.desktop \
+  "${STAGED_DIR}/config/applications/ohmydebn-ai.desktop"=/usr/share/applications/ohmydebn-ai.desktop \
   "${STAGED_DIR}/config/autostart/ohmydebn-theme-intro.desktop"=/etc/xdg/autostart/ohmydebn-theme-intro.desktop
 
 echo
